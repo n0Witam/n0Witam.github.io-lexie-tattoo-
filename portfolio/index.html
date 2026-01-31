@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Lexie Tattoo</title>
+  <meta name="description" content="Pełne portfolio prac Lexie (@lexie.tattoo)." />
+
+  <link rel="icon" href="../assets/img/hero.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Nawigacja">
+        <a class="brand" href="../">
+          <span class="brand__dot" aria-hidden="true"></span>
+          <span>LEXIE</span>
+        </a>
+
+        <div class="nav__links">
+          <a href="../#about">O mnie</a>
+          <a href="../#works">Prace</a>
+          <a href="../#contact">Kontakt</a>
+        </div>
+
+        <div class="nav__cta">
+          <a class="btn btn--ghost" href="https://instagram.com/lexie.tattoo" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="btn btn--primary" href="../#booking">Rezerwacja</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="toolbar">
+        <div>
+          <div class="hero__kicker">pełne portfolio</div>
+          <h1 style="margin: 8px 0 4px; font-size: 26px;">Prace Lexie</h1>
+          <div style="color: var(--muted); font-size: 13px;">
+            Aktualizacja: <span data-updated>—</span>
+            <span aria-hidden="true"> · </span>
+            Kliknij zdjęcie, aby powiększyć
+            <span aria-hidden="true"> · </span>
+            <span class="kbd">Esc</span> zamyka
+          </div>
+        </div>
+
+        <a class="btn" href="../">← Strona główna</a>
+      </div>
+
+      <div id="portfolioGrid" class="grid" aria-label="Portfolio (grid)"></div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" aria-hidden="true" aria-label="Podgląd zdjęcia" role="dialog">
+      <div class="lightbox__inner">
+        <img id="lightboxImg" class="lightbox__img" alt="" />
+        <div class="lightbox__bar">
+          <div id="lightboxCaption"></div>
+          <div style="display:flex; gap:10px;">
+            <button id="lightboxPrev" class="btn" type="button" aria-label="Poprzednie">←</button>
+            <button id="lightboxNext" class="btn" type="button" aria-label="Następne">→</button>
+            <button id="lightboxClose" class="btn btn--primary" type="button" aria-label="Zamknij">Zamknij</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__row">
+        <div>© <span data-year></span> Lexie Tattoo</div>
+        <div><a href="https://instagram.com/lexie.tattoo" target="_blank" rel="noreferrer">@lexie.tattoo</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    // Ustaw rok w stopce (lokalnie, bez bundlera)
+    document.querySelectorAll("[data-year]").forEach(el => el.textContent = String(new Date().getFullYear()));
+  </script>
+  <script type="module" src="../assets/js/portfolio.js"></script>
+</body>
+</html>

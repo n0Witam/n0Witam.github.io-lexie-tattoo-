@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>𝕷𝖊𝖝𝖎𝖊 𝕾𝖆𝖑𝖔𝖒𝖊 ✧˚₊</title>
+        <meta
+            name="description"
+            content="Lexie Tattoo/ Minimalistyczne tatuaże / booking / portfolio – Lexie (@lexie.tattoo)."
+        />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="Lexie Tattoo" />
+        <meta
+            property="og:description"
+            content="Minimalistyczne tatuaże / booking / portfolio – Lexie (@lexie.tattoo)."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="./assets/img/hero.svg" />
+
+        <link rel="icon" href="./assets/img/hero.svg" type="image/svg+xml" />
+        <link rel="stylesheet" href="./assets/css/styles.css" />
+    </head>
+
+    <body>
+        <header class="site-header">
+            <div class="container">
+                <nav class="nav" aria-label="Nawigacja główna">
+                    <a class="brand" href="./">
+                        <span class="brand__dot" aria-hidden="true"></span>
+                        <span>LEXIE</span>
+                    </a>
+
+                    <div class="nav__links">
+                        <a href="#about">O mnie</a>
+                        <a href="#works">Prace</a>
+                        <a href="./portfolio/">Portfolio</a>
+                        <a href="#contact">Kontakt</a>
+                    </div>
+
+                    <div class="nav__cta">
+                        <a
+                            class="btn btn--ghost"
+                            href="https://instagram.com/lexie.tattoo"
+                            target="_blank"
+                            rel="noreferrer"
+                            >Instagram</a
+                        >
+                        <a class="btn btn--primary" href="#booking"
+                            >Rezerwacja</a
+                        >
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero__grid">
+                        <div>
+                            <div class="hero__kicker">
+                                tattoo • fine line • blackwork
+                            </div>
+                            <h1 class="hero__title">Lexie Tattoo</h1>
+                            <p class="hero__subtitle">
+                                Krótki opis w 1–2 zdaniach: styl, miasto, co
+                                robisz najlepiej. To jest miejsce na „wizytówkę”
+                                + szybkie CTA.
+                            </p>
+
+                            <div class="hero__actions">
+                                <a class="btn btn--primary" href="#booking"
+                                    >Zarezerwuj termin</a
+                                >
+                                <a class="btn" href="./portfolio/"
+                                    >Zobacz pełne portfolio</a
+                                >
+                                <a class="btn btn--ghost" href="#contact"
+                                    >Napisz wiadomość</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="hero__card" aria-hidden="true">
+                            <img src="./assets/img/hero.svg" alt="" />
+                            <div class="hero__cardCaption">
+                                <span>@lexie.tattoo</span>
+                                <span class="badge">DM / Booking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="section">
+                <div class="container">
+                    <h2 class="section__title">O mnie</h2>
+
+                    <div class="split">
+                        <div class="card">
+                            <p>
+                                <strong>Lexie</strong> — tatuażystka. Wstaw tu
+                                swój opis (2–5 zdań), np. filozofia, inspiracje,
+                                podejście do higieny i komfortu.
+                            </p>
+                            <ul class="list">
+                                <li>
+                                    • Styl: fine line / botanical / minimal /
+                                    blackwork (dopasuj)
+                                </li>
+                                <li>• Lokalizacja: (miasto / studio)</li>
+                                <li>• Konsultacje: DM / formularz</li>
+                                <li>• Czas odpowiedzi: np. 24–72h</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <p><strong>Jak wygląda proces?</strong></p>
+                            <ul class="list">
+                                <li>
+                                    1) Piszesz z pomysłem + miejscem na ciele +
+                                    rozmiarem
+                                </li>
+                                <li>
+                                    2) Dostajesz wstępną wycenę i propozycję
+                                    terminu
+                                </li>
+                                <li>
+                                    3) Potwierdzenie rezerwacji (zaliczka –
+                                    jeśli stosujesz)
+                                </li>
+                                <li>4) Sesja + instrukcje pielęgnacji</li>
+                            </ul>
+                            <p style="margin-top: 12px">
+                                <a class="btn" href="./portfolio/"
+                                    >Portfolio →</a
+                                >
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Selected works (no visible header) -->
+            <section id="works" class="section">
+                <div class="container">
+                    <h2 class="sr-only">Wyselekcjonowane prace</h2>
+
+                    <div class="carousel" data-carousel>
+                        <div
+                            class="carousel__track"
+                            data-track
+                            id="featuredTrack"
+                            aria-label="Wyselekcjonowane prace (karuzela)"
+                        ></div>
+
+                        <div
+                            class="carousel__controls"
+                            aria-label="Sterowanie karuzelą"
+                        >
+                            <button
+                                class="btn"
+                                type="button"
+                                data-prev
+                                aria-label="Poprzednie zdjęcie"
+                            >
+                                ←
+                            </button>
+                            <button
+                                class="btn"
+                                type="button"
+                                data-next
+                                aria-label="Następne zdjęcie"
+                            >
+                                →
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        style="
+                            margin-top: 14px;
+                            display: flex;
+                            justify-content: flex-end;
+                        "
+                    >
+                        <a class="btn" href="./portfolio/">Pełne portfolio →</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="section">
+                <div class="container">
+                    <h2 class="section__title">Kontakt</h2>
+
+                    <div class="split">
+                        <div class="card">
+                            <p><strong>Najszybciej:</strong> Instagram DM.</p>
+                            <p>
+                                <a
+                                    class="btn btn--ghost"
+                                    href="https://instagram.com/lexie.tattoo"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    >@lexie.tattoo</a
+                                >
+                            </p>
+
+                            <p style="margin-top: 16px">
+                                Jeśli wolisz formularz — zostaw wiadomość. Trafi
+                                do arkusza odpowiedzi Google Forms.
+                            </p>
+
+                            <p style="margin-top: 16px">
+                                <span class="badge">Tip</span>
+                                W wiadomości podaj: pomysł, rozmiar (cm),
+                                miejsce na ciele, preferowane terminy.
+                            </p>
+                        </div>
+
+                        <div class="card">
+                            <!--
+              Custom front-end do Google Forms:
+              1) Utwórz formularz Google (Name / Email / Message).
+              2) Podmień data-gform-action na URL typu:
+                 https://docs.google.com/forms/d/e/FORM_ID/formResponse
+              3) Podmień nazwy pól (entry.XXXX) na prawidłowe identyfikatory z formularza.
+              Instrukcja w README.
+            -->
+                            <form
+                                id="contactForm"
+                                class="form"
+                                data-gform-action="https://docs.google.com/forms/d/e/FORM_ID/formResponse"
+                            >
+                                <div class="field">
+                                    <label for="name">Imię</label>
+                                    <input
+                                        id="name"
+                                        name="entry.1111111111"
+                                        autocomplete="name"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="field">
+                                    <label for="email">Email</label>
+                                    <input
+                                        id="email"
+                                        name="entry.2222222222"
+                                        type="email"
+                                        autocomplete="email"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="field">
+                                    <label for="msg">Wiadomość</label>
+                                    <textarea
+                                        id="msg"
+                                        name="entry.3333333333"
+                                        required
+                                    ></textarea>
+                                </div>
+
+                                <button class="btn btn--primary" type="submit">
+                                    Wyślij
+                                </button>
+                                <p
+                                    class="form__status"
+                                    role="status"
+                                    aria-live="polite"
+                                ></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="booking" class="section">
+                <div class="container">
+                    <h2 class="section__title">Rezerwacja terminu</h2>
+
+                    <div class="split">
+                        <div class="card">
+                            <p>
+                                Kliknij przycisk i wybierz wolny termin.
+                                Dostępność jest sterowana z Google Calendar
+                                (Appointment schedule).
+                            </p>
+                            <p>
+                                <span class="badge">Uwaga</span>
+                                Booking page jest publiczny (osoba z linkiem
+                                widzi nazwę konta i zdjęcie profilowe).
+                            </p>
+                            <p style="margin-top: 14px">
+                                Jeśli nie widzisz pasującego terminu — napisz
+                                DM. Czasem da się coś dopasować.
+                            </p>
+                        </div>
+
+                        <div class="card">
+                            <!-- Google Calendar Appointment Scheduling (button with popup)
+                 W Google Calendar: Booking pages → Options → Sharing options → Website embed → Button with popup → Copy code
+                 Podmień url: na swój link z kalendarza.
+            -->
+                            <div id="bookingBtnAnchor"></div>
+
+                            <link
+                                href="https://calendar.google.com/calendar/scheduling-button-script.css"
+                                rel="stylesheet"
+                            />
+                            <script
+                                src="https://calendar.google.com/calendar/scheduling-button-script.js"
+                                async
+                            ></script>
+                            <script>
+                                (function () {
+                                    window.addEventListener(
+                                        "load",
+                                        function () {
+                                            var target =
+                                                document.getElementById(
+                                                    "bookingBtnAnchor",
+                                                );
+                                            if (
+                                                !target ||
+                                                !window.calendar ||
+                                                !calendar.schedulingButton
+                                            )
+                                                return;
+
+                                            calendar.schedulingButton.load({
+                                                url: "YOUR_APPOINTMENT_SCHEDULE_URL?gv=true",
+                                                color: "#111111",
+                                                label: "Zarezerwuj termin",
+                                                target: target,
+                                            });
+
+                                            // Stylowanie: skrypt wstrzykuje <button> obok elementu target.
+                                            // To obejście daje Ci pełną kontrolę (inline style wygrywa z domyślnymi).
+                                            setTimeout(function () {
+                                                var btn =
+                                                    target.nextElementSibling;
+                                                if (
+                                                    !btn ||
+                                                    btn.tagName !== "BUTTON"
+                                                )
+                                                    return;
+
+                                                btn.style.backgroundColor =
+                                                    "var(--accent)";
+                                                btn.style.color = "var(--bg)";
+                                                btn.style.border = "none";
+                                                btn.style.padding = "14px 18px";
+                                                btn.style.borderRadius =
+                                                    "999px";
+                                                btn.style.fontWeight = "650";
+                                                btn.style.letterSpacing =
+                                                    "0.2px";
+                                                btn.style.cursor = "pointer";
+                                                btn.style.width = "100%";
+                                            }, 0);
+                                        },
+                                    );
+                                })();
+                            </script>
+
+                            <p
+                                style="
+                                    margin-top: 14px;
+                                    color: var(--muted);
+                                    font-size: 13px;
+                                "
+                            >
+                                Jeśli nie chcesz używać popupu — możesz też
+                                wkleić inline booking page (iframe) zamiast
+                                przycisku.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__row">
+                    <div>© <span data-year></span> Lexie Tattoo</div>
+                    <div>
+                        <a href="./portfolio/">Portfolio</a>
+                        <span aria-hidden="true"> · </span>
+                        <a
+                            href="https://instagram.com/lexie.tattoo"
+                            target="_blank"
+                            rel="noreferrer"
+                            >Instagram</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script type="module" src="./assets/js/main.js"></script>
+    </body>
+</html>

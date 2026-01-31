@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "updated": "2026-01-31",
+  "items": [
+    {
+      "id": "p01",
+      "src": "../assets/img/portfolio/p01.svg",
+      "alt": "Tatuaż – praca 01 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p02",
+      "src": "../assets/img/portfolio/p02.svg",
+      "alt": "Tatuaż – praca 02 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p03",
+      "src": "../assets/img/portfolio/p03.svg",
+      "alt": "Tatuaż – praca 03 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p04",
+      "src": "../assets/img/portfolio/p04.svg",
+      "alt": "Tatuaż – praca 04 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p05",
+      "src": "../assets/img/portfolio/p05.svg",
+      "alt": "Tatuaż – praca 05 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p06",
+      "src": "../assets/img/portfolio/p06.svg",
+      "alt": "Tatuaż – praca 06 (placeholder)",
+      "featured": true
+    },
+    {
+      "id": "p07",
+      "src": "../assets/img/portfolio/p07.svg",
+      "alt": "Tatuaż – praca 07 (placeholder)",
+      "featured": false
+    },
+    {
+      "id": "p08",
+      "src": "../assets/img/portfolio/p08.svg",
+      "alt": "Tatuaż – praca 08 (placeholder)",
+      "featured": false
+    },
+    {
+      "id": "p09",
+      "src": "../assets/img/portfolio/p09.svg",
+      "alt": "Tatuaż – praca 09 (placeholder)",
+      "featured": false
+    },
+    {
+      "id": "p10",
+      "src": "../assets/img/portfolio/p10.svg",
+      "alt": "Tatuaż – praca 10 (placeholder)",
+      "featured": false
+    },
+    {
+      "id": "p11",
+      "src": "../assets/img/portfolio/p11.svg",
+      "alt": "Tatuaż – praca 11 (placeholder)",
+      "featured": false
+    },
+    {
+      "id": "p12",
+      "src": "../assets/img/portfolio/p12.svg",
+      "alt": "Tatuaż – praca 12 (placeholder)",
+      "featured": false
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — kolejność portfolio</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" href="../assets/img/hero.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <style>
+    .admin{
+      padding: 24px 0 40px;
+    }
+    .admin h1{
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+    .admin p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 80ch;
+    }
+    .panel{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .status{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 18px;
+    }
+    .reorder{
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 28px 64px 1fr auto;
+      gap: 12px;
+      align-items:center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg-2) 92%, transparent);
+    }
+    .row:last-child{ border-bottom: none; }
+    .row.dragging{ opacity: 0.65; }
+    .handle{
+      color: var(--muted);
+      font-size: 18px;
+      text-align: center;
+      user-select: none;
+      cursor: grab;
+    }
+    .thumb{
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .meta{
+      display:grid;
+      gap: 6px;
+    }
+    .title{
+      font-weight: 650;
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+    .alt{
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
+    .right{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .check{
+      font-size: 13px;
+      color: var(--muted);
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      user-select: none;
+    }
+    .hint{
+      margin-top: 10px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Nawigacja">
+        <a class="brand" href="../">
+          <span class="brand__dot" aria-hidden="true"></span>
+          <span>LEXIE</span>
+        </a>
+        <div class="nav__links">
+          <a href="../portfolio/">Portfolio</a>
+          <a href="../">Strona główna</a>
+        </div>
+        <div class="nav__cta">
+          <a class="btn btn--primary" href="../portfolio/">Podgląd</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin">
+    <div class="container">
+      <h1>Portfolio — kolejność & featured</h1>
+      <p>
+        To jest proste narzędzie (statyczne) do ustawienia kolejności zdjęć i oznaczenia „Featured”.
+        Zmiany nie zapisują się automatycznie — pobierz nowy <code>portfolio.json</code>, podmień w <code>/data</code> i zacommituj.
+      </p>
+
+      <div class="panel">
+        <button class="btn btn--primary" id="btnDownload" type="button">Pobierz portfolio.json</button>
+        <button class="btn" id="btnCopy" type="button">Kopiuj JSON do schowka</button>
+        <a class="btn btn--ghost" href="https://github.com/" target="_blank" rel="noreferrer">GitHub (commit)</a>
+      </div>
+
+      <div class="status" id="status"></div>
+
+      <div class="hint">
+        <span class="badge">Tip</span>
+        Przeciągnij wiersze. Dla klawiatury: <span class="kbd">Alt</span> + <span class="kbd">↑</span>/<span class="kbd">↓</span>.
+      </div>
+
+      <div class="reorder" id="reorderList" aria-label="Lista portfolio (przeciągnij, aby zmienić kolejność)"></div>
+    </div>
+  </main>
+
+  <script type="module" src="../assets/js/reorder.js"></script>
+</body>
+</html>
