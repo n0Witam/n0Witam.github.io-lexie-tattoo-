@@ -109,7 +109,7 @@
                                     • Styl: fine line / botanical / minimal /
                                     blackwork (dopasuj)
                                 </li>
-                                <li>• Lokalizacja: (miasto / studio)</li>
+                                <li>• Lokalizacja: Warszawa / PRISM</li>
                                 <li>• Konsultacje: DM / formularz</li>
                                 <li>• Czas odpowiedzi: np. 24–72h</li>
                             </ul>
@@ -220,6 +220,45 @@
                         </div>
 
                         <div class="card">
+                            <div class="card">
+                              <!--
+                                Custom front-end do Google Forms:
+                                1) Utwórz formularz Google (Name / Email / Message).
+                                2) Podmień data-gform-action na URL typu:
+                                   https://docs.google.com/forms/d/e/FORM_ID/formResponse
+                                3) Podmień nazwy pól (entry.XXXX) na prawidłowe identyfikatory z formularza.
+                                Instrukcja w README.
+                              -->
+                              <form id="contactForm" class="form"
+                                action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse"
+                                method="POST"
+                                target="gformIframe"
+                                data-gform-action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse">
+
+                                <div class="field">
+                                  <label for="name">Imię</label>
+                                  <input id="name" name="entry.2005620554" autocomplete="name" required />
+                                </div>
+
+                                <div class="field">
+                                  <label for="mobile">Email</label>
+                                  <input id="mobile" name="entry.1166974658" type="mobile" autocomplete="mobile" required />
+                                </div>
+
+                                <div class="field">
+                                  <label for="msg">Wiadomość</label>
+                                  <textarea id="msg" name="entry.839337160" required></textarea>
+                                </div>
+
+                                <button class="btn btn--primary" type="submit">Wyślij</button>
+                                <p class="form__status" role="status" aria-live="polite"></p>
+                              </form>
+
+                              <!-- Hidden iframe: pozwala wysłać formResponse bez przekierowania poza stronę -->
+                              <iframe id="gformIframe" name="gformIframe" title="Google Forms submit" style="display:none;"></iframe>
+                            </div>
+                          </div>
+                        </div>
                             <!--
               Custom front-end do Google Forms:
               1) Utwórz formularz Google (Name / Email / Message).
@@ -228,156 +267,6 @@
               3) Podmień nazwy pól (entry.XXXX) na prawidłowe identyfikatory z formularza.
               Instrukcja w README.
             -->
-                            <form
-                                id="contactForm"
-                                class="form"
-                                data-gform-action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse"
-                            >
-                                <div class="field">
-                                    <label for="name">Imię i nazwisko</label>
-                                    <input
-                                        id="name"
-                                        name="entry.2005620554"
-                                        autocomplete="name"
-                                        required
-                                    />
-                                </div>
-
-                                <div class="field">
-                                    <label for="mobile">Telefon</label>
-                                    <input
-                                        id="mobile"
-                                        name="mobile.1166974658"
-                                        type="mobile"
-                                        autocomplete="mobile"
-                                        required
-                                    />
-                                </div>
-
-                                <div class="field">
-                                    <label for="msg">Wiadomość</label>
-                                    <textarea
-                                        id="msg"
-                                        name="entry.839337160"
-                                        required
-                                    ></textarea>
-                                </div>
-
-                                <button class="btn btn--primary" type="submit">
-                                    Wyślij
-                                </button>
-                                <p
-                                    class="form__status"
-                                    role="status"
-                                    aria-live="polite"
-                                ></p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="booking" class="section">
-                <div class="container">
-                    <h2 class="section__title">Rezerwacja terminu</h2>
-
-                    <div class="split">
-                        <div class="card">
-                            <p>
-                                Kliknij przycisk i wybierz wolny termin.
-                                Dostępność jest sterowana z Google Calendar
-                                (Appointment schedule).
-                            </p>
-                            <p>
-                                <span class="badge">Uwaga</span>
-                                Booking page jest publiczny (osoba z linkiem
-                                widzi nazwę konta i zdjęcie profilowe).
-                            </p>
-                            <p style="margin-top: 14px">
-                                Jeśli nie widzisz pasującego terminu — napisz
-                                DM. Czasem da się coś dopasować.
-                            </p>
-                        </div>
-
-                        <div class="card">
-                            <!-- Google Calendar Appointment Scheduling (button with popup)
-                 W Google Calendar: Booking pages → Options → Sharing options → Website embed → Button with popup → Copy code
-                 Podmień url: na swój link z kalendarza.
-            -->
-                            <div id="bookingBtnAnchor"></div>
-
-                            <link
-                                href="https://calendar.google.com/calendar/scheduling-button-script.css"
-                                rel="stylesheet"
-                            />
-                            <script
-                                src="https://calendar.google.com/calendar/scheduling-button-script.js"
-                                async
-                            ></script>
-                            <script>
-                                (function () {
-                                    window.addEventListener(
-                                        "load",
-                                        function () {
-                                            var target =
-                                                document.getElementById(
-                                                    "bookingBtnAnchor",
-                                                );
-                                            if (
-                                                !target ||
-                                                !window.calendar ||
-                                                !calendar.schedulingButton
-                                            )
-                                                return;
-
-                                            calendar.schedulingButton.load({
-                                                url: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2Cl1z2nZ9BI4LsItAPNiNDv3Zb1Nd5ZL_u-pA-utD9L2INfabuqYVTZpRfObRTY_CuuAu6jk1a?gv=true",
-                                                color: "#111111",
-                                                label: "Zarezerwuj termin",
-                                                target: target,
-                                            });
-
-                                            // Stylowanie: skrypt wstrzykuje <button> obok elementu target.
-                                            // To obejście daje Ci pełną kontrolę (inline style wygrywa z domyślnymi).
-                                            setTimeout(function () {
-                                                var btn =
-                                                    target.nextElementSibling;
-                                                if (
-                                                    !btn ||
-                                                    btn.tagName !== "BUTTON"
-                                                )
-                                                    return;
-
-                                                btn.style.backgroundColor =
-                                                    "var(--accent)";
-                                                btn.style.color = "var(--bg)";
-                                                btn.style.border = "none";
-                                                btn.style.padding = "14px 18px";
-                                                btn.style.borderRadius =
-                                                    "999px";
-                                                btn.style.fontWeight = "650";
-                                                btn.style.letterSpacing =
-                                                    "0.2px";
-                                                btn.style.cursor = "pointer";
-                                                btn.style.width = "100%";
-                                            }, 0);
-                                        },
-                                    );
-                                })();
-                            </script>
-
-                            <p
-                                style="
-                                    margin-top: 14px;
-                                    color: var(--muted);
-                                    font-size: 13px;
-                                "
-                            >
-                                Jeśli nie chcesz używać popupu — możesz też
-                                wkleić inline booking page (iframe) zamiast
-                                przycisku.
-                            </p>
-                        </div>
                     </div>
                 </div>
             </section>
