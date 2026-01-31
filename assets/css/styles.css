@@ -294,7 +294,7 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 18px;
-    background: color-mix(in srgb, var(--bg-2) 76%, transparent);
+    background: color-mix(in srgb, var(--bg) 76%, transparent);
 }
 
 .card p {
