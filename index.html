@@ -20,6 +20,7 @@
 
         <link rel="icon" href="./assets/img/hero.svg" type="image/svg+xml" />
         <link rel="stylesheet" href="./assets/css/styles.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@v1/web/uc-file-uploader-minimal.min.css">
     </head>
 
     <body>
@@ -190,9 +191,31 @@
                                   <textarea id="msg" name="entry.839337160" required>
 • Pomysł na wzór: 
 • Miejsce na ciele: 
-• Rozmiar (cm): 
-                                  </textarea>
+• Rozmiar (cm): </textarea>
                                 </div>
+                                <div class="field">
+                                  <label for="files">Inspiracje</label>
+
+                                  <uc-config
+                                    id="files"
+                                    ctx-name="lexie-upload"
+                                    pubkey="976a65662ac407428aa5"
+                                    img-only="true"
+                                    multiple="true"
+                                    multiple-max="7"
+                                    accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif"
+                                    max-local-file-size-bytes="2621440"
+                                    source-list="local"
+                                  ></uc-config>
+
+                                  <uc-upload-ctx-provider id="lexieUploadCtx" ctx-name="lexie-upload"></uc-upload-ctx-provider>
+                                  <uc-file-uploader-minimal ctx-name="lexie-upload"></uc-file-uploader-minimal>
+
+                                  <small class="form__hint" style="font-style: italic; color: #66666650; size:5px;">
+                                    Załącz zdjęcia<br>
+                                    jpg / jpeg / png / webp / heic • max 2.5 MB / plik • do 7 plików
+                                  </small>
+                                </div><br>
 
                                 <button class="btn btn--primary" type="submit">Wyślij</button>
                                           <p class="form__status" role="status" aria-live="polite"></p>
@@ -313,4 +336,69 @@
 
         <script type="module" src="./assets/js/main.js"></script>
     </body>
+    <script type="module">
+      import * as UC from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@v1/web/file-uploader.min.js";
+      UC.defineComponents(UC);
+    </script>
+
+    <script>
+      (() => {
+        const ctxEl = document.getElementById("lexieUploadCtx");
+        const form = document.getElementById("contactForm");
+        if (!ctxEl || !form) return;
+
+        // DOPASUJ: textarea wiadomości w Twoim formularzu
+        const messageEl =
+          form.querySelector('textarea[name="entry.839337160"]') ||
+          form.querySelector("textarea");
+
+        if (!messageEl) return;
+
+        const SENTINEL_START = "\n\n---\nZdjęcia:\n";
+        const SENTINEL_RE = /\n\n---\nZdjęcia:\n[\s\S]*$/;
+
+        function writeUrlsIntoMessage(urls) {
+          const base = messageEl.value.replace(SENTINEL_RE, "");
+          if (!urls.length) {
+            messageEl.value = base; // jeśli user usunie zdjęcia, usuń blok z URL-ami
+            return;
+          }
+          messageEl.value = base + SENTINEL_START + urls.join("\n"); // każdy URL w nowej linii
+        }
+
+        function getUrlsFromState() {
+          const api = ctxEl.getAPI();
+          const state = api.getOutputCollectionState();
+          const files = state?.files || [];
+          return files
+            .filter(f => f?.status === "success" && typeof f?.cdnUrl === "string" && f.cdnUrl)
+            .map(f => f.cdnUrl);
+        }
+
+        // Aktualizuj URL-e przy każdej zmianie kolekcji
+        ctxEl.addEventListener("change", () => {
+          writeUrlsIntoMessage(getUrlsFromState());
+        });
+
+        // Opcjonalnie: jeśli user kliknie submit w trakcie uploadu i *ma* dodane pliki,
+        // to blokujemy, żeby nie wysłać formularza bez URL-i.
+        // Jeśli nie dodał żadnych zdjęć -> formularz idzie normalnie.
+        form.addEventListener("submit", (e) => {
+          const api = ctxEl.getAPI();
+          const state = api.getOutputCollectionState();
+          const files = state?.files || [];
+
+          if (!files.length) return; // zdjęcia opcjonalne
+
+          const hasPending = files.some(f => f.status !== "success");
+          if (hasPending) {
+            e.preventDefault();
+            alert("Poczekaj aż zdjęcia się wgrają, albo usuń je i wyślij formularz bez zdjęć 🙂");
+          } else {
+            // upewnij się, że blok URL-i jest aktualny tuż przed wysyłką
+            writeUrlsIntoMessage(getUrlsFromState());
+          }
+        });
+      })();
+    </script>
 </html>

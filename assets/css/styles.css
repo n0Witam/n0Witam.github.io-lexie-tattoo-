@@ -452,6 +452,10 @@ a:hover {
     font-size: 13px;
 }
 
+.form__hint {
+    color: var(--muted);
+}
+
 /* ====== Portfolio grid ====== */
 
 .toolbar {
