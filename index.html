@@ -71,12 +71,12 @@
                             </div>
                         </div>
 
-                        <div aria-hidden="true" style="text-align: right;">
-                            <div style="">
-                                <a href="https://instagram.com/lexietattoo" class="ig-card" target="_blank">
-                                  <img src="./assets/img/ig_profile_pic.jpg" alt=""></a></br>
-                                  <span>@lexietattoo</span>
-                                </a>
+                        <div class="hero__side" aria-hidden="true">
+                            <div class="ig-profile">
+                              <a href="https://instagram.com/lexietattoo" class="ig-profile__link" target="_blank" rel="noreferrer">
+                                <img src="./assets/img/ig_profile_pic.jpg" alt="Profil Instagram Lexie" />
+                                <span class="ig-profile__handle">@lexietattoo</span>
+                              </a>
                             </div>
                         </div>
                     </div>
@@ -146,18 +146,17 @@
               </div>
             </section>
 
-            <section id="contact" class="section">
+            <section id="contact" class="section section--contact">
                 <div class="container">
                     <h2 class="section__title">Kontakt</h2>
-                        <div class="split">
-                        <div class="card" style="width: 120%;">
-                            <div class="card">
-                              <form id="contactForm" class="form"
-                                action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse"
-                                method="POST"
-                                target="gformIframe"
-                                data-gform-action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse"
-                                novalidate>
+
+                    <div class="split split--contact">
+                        <div class="card contact__formCard">
+<form id="contactForm" class="form"
+                      action="https://docs.google.com/forms/d/e/1FAIpQLSfPa5Xlf3jLDeWNyr4rr6Le30GBFlundXqoU2JUIaOK8H2D9A/formResponse"
+                      method="POST"
+                      target="gformIframe"
+                      novalidate>
 
                                 <div class="field">
                                   <label for="name">Imię i nazwisko</label>
@@ -193,14 +192,10 @@
                                 </div>
 
                                 <button class="btn btn--primary" type="submit">Wyślij</button>
-                                <p class="form__status" role="status" aria-live="polite"></p>
-                              </form>
-
-                              <!-- Hidden iframe: pozwala wysłać formResponse bez przekierowania poza stronę -->
-                              <iframe id="gformIframe" name="gformIframe" title="Google Forms submit" style="display:none;"></iframe>
-                            </div>
-
-                            <script>
+                                          <p class="form__status" role="status" aria-live="polite"></p>
+                                        </form>
+<iframe id="gformIframe" name="gformIframe" title="Google Forms submit" style="display:none;"></iframe>
+<script>
                             (() => {
                               const form = document.getElementById('contactForm');
                               const statusEl = form.querySelector('.form__status');
@@ -293,15 +288,12 @@
                               });
                             })();
                             </script>
-                          </div>
-                          <div class="card">
-                              <span></span>
-                          </div>
+                        </div>
+
+                        <div class="contact__imageWrap">
+                            <img class="contact__image" src="./assets/img/lexie_fg.png" alt="" />
                         </div>
                     </div>
-                </div>
-                <div class="split">
-                    <img src="./assets/img/lexie_fg.png" alt="" />
                 </div>
             </section>
         </main>
