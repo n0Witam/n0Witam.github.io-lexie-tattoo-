@@ -197,10 +197,8 @@
                                   <label for="files">Inspiracje</label>
 
                                   <uc-config
-                                    id="files"
                                     ctx-name="lexie-upload"
                                     pubkey="976a65662ac407428aa5"
-                                    img-only="true"
                                     multiple="true"
                                     multiple-max="7"
                                     accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif"
@@ -209,7 +207,7 @@
                                   ></uc-config>
 
                                   <uc-upload-ctx-provider id="lexieUploadCtx" ctx-name="lexie-upload"></uc-upload-ctx-provider>
-                                  <uc-file-uploader-minimal ctx-name="lexie-upload"></uc-file-uploader-minimal>
+                                  <uc-file-uploader-minimal id="lexieUploader" ctx-name="lexie-upload"></uc-file-uploader-minimal>
 
                                   <small class="form__hint" style="font-style: italic; color: #66666650; size:5px;">
                                     Załącz zdjęcia<br>
@@ -339,73 +337,89 @@
           import * as UC from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@v1/web/file-uploader.min.js";
           UC.defineComponents(UC);
 
-          // 👇 czekamy aż web components będą gotowe, dopiero wtedy logika formularza
-          async function initUploadcareToGForm() {
-            await customElements.whenDefined("uc-upload-ctx-provider");
+          (async () => {
+            await customElements.whenDefined("uc-file-uploader-minimal");
 
-            const ctxEl = document.getElementById("lexieUploadCtx");
             const form = document.getElementById("contactForm");
-            if (!ctxEl || !form) return;
+            const uploaderEl = document.getElementById("lexieUploader");
 
-            // 1) ustaw action z data-gform-action (żeby nie zapomnieć)
+            if (!form || !uploaderEl) {
+              console.warn("Uploadcare init: missing form/uploader elements");
+              return; // ✅ teraz legalne (jesteśmy w funkcji)
+            }
+
+            // ustaw action z data-gform-action
             const gformAction = form.getAttribute("data-gform-action");
             if (gformAction) form.setAttribute("action", gformAction);
 
-            // 2) textarea wiadomości
             const messageEl = form.querySelector('textarea[name="entry.839337160"]');
-            if (!messageEl) return;
+            if (!messageEl) {
+              console.warn("Uploadcare init: message textarea not found");
+              return;
+            }
 
             const SENTINEL_START = "\n\n---\nZdjęcia:\n";
             const SENTINEL_RE = /\n\n---\nZdjęcia:\n[\s\S]*$/;
 
             const stripBlock = () => messageEl.value.replace(SENTINEL_RE, "");
-            const writeUrlsIntoMessage = (urls) => {
+            const urlByInternalId = new Map();
+
+            const writeFromMap = () => {
+              const urls = Array.from(urlByInternalId.values()).filter(Boolean);
               const base = stripBlock();
               messageEl.value = urls.length ? (base + SENTINEL_START + urls.join("\n")) : base;
             };
 
-            const getUrlsFromState = () => {
-              const api = ctxEl.getAPI();
-              const state = api.getOutputCollectionState();
-              const files = state?.files || [];
-              return files
-                .map((f) => f?.cdnUrl)
-                .filter((u) => typeof u === "string" && u.length);
-            };
+            // Event: CDN URL gotowe
+            uploaderEl.addEventListener("file-url-changed", (e) => {
+              const entry = e.detail;
+              const internalId = entry?.internalId;
+              const cdnUrl = entry?.cdnUrl;
 
-            // ✅ Najpewniejsze: reaguj na zmianę CDN URL (po uploadzie / po edycji)
-            ctxEl.addEventListener("file-url-changed", () => {
-              writeUrlsIntoMessage(getUrlsFromState());
+              if (internalId && cdnUrl) {
+                urlByInternalId.set(internalId, cdnUrl);
+                writeFromMap();
+              }
             });
 
-            // ✅ Dodatkowo: ogólna zmiana stanu listy (postęp, success, remove)
-            ctxEl.addEventListener("change", () => {
-              writeUrlsIntoMessage(getUrlsFromState());
+            // Event: upload sukces (czasem cdnUrl jest już w detail)
+            uploaderEl.addEventListener("file-upload-success", (e) => {
+              const entry = e.detail;
+              const internalId = entry?.internalId;
+              const cdnUrl = entry?.cdnUrl;
+
+              if (internalId && cdnUrl) {
+                urlByInternalId.set(internalId, cdnUrl);
+                writeFromMap();
+              }
             });
 
-            // 3) submit: jeśli user ma pliki, ale jeszcze się wgrywają -> blokujemy
+            // Event: usunięcie pliku
+            uploaderEl.addEventListener("file-removed", (e) => {
+              const entry = e.detail;
+              const internalId = entry?.internalId;
+              if (internalId) {
+                urlByInternalId.delete(internalId);
+                writeFromMap();
+              }
+            });
+
+            // Submit: jeśli user dodał pliki, ale nie ma jeszcze URL -> blokuj
             form.addEventListener("submit", (e) => {
-              const api = ctxEl.getAPI();
-              const state = api.getOutputCollectionState();
-              const files = state?.files || [];
+              const hasAny = urlByInternalId.size > 0;
+              if (!hasAny) return; // zdjęcia opcjonalne
 
-              if (!files.length) return; // zdjęcia opcjonalne
-
-              const allHaveUrl = files.every((f) => f?.cdnUrl);
-              const hasPending = files.some((f) => f?.status !== "success");
-
-              if (hasPending || !allHaveUrl) {
+              const urls = Array.from(urlByInternalId.values()).filter(Boolean);
+              if (!urls.length) {
                 e.preventDefault();
-                alert("Poczekaj aż zdjęcia się wgrają (lub usuń je i wyślij formularz bez zdjęć).");
+                alert("Poczekaj aż zdjęcia się wgrają (albo usuń je i wyślij formularz bez zdjęć).");
                 return;
               }
 
-              // ostatnie odświeżenie URL-i przed wysyłką
-              writeUrlsIntoMessage(getUrlsFromState());
+              // ostatnie dopisanie przed wysyłką
+              writeFromMap();
             });
-          }
-
-          initUploadcareToGForm();
+          })();
         </script>
     </body>
 </html>
