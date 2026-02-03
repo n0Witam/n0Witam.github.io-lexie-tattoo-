@@ -116,6 +116,10 @@ function setupContactForm() {
 
     status.textContent = "Wysyłam…";
 
+    // ✅ dopnij linki do textarea *przed* zrobieniem FormData
+    window.__lexieSyncUploadUrls?.();
+
+    // ✅ teraz dopiero bierz FormData
     const fd = new FormData(form);
 
     try {
