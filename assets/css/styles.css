@@ -306,6 +306,7 @@ a:hover {
     border-radius: var(--radius);
     padding: 18px;
     background: color-mix(in srgb, var(--bg) 76%, transparent);
+    box-shadow: var(--shadow);
 }
 
 .card p {
