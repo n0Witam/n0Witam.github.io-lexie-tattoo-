@@ -1,77 +1,53 @@
 {
   "version": 1,
-  "updated": "2026-01-31",
+  "updated": "2026-02-03",
   "items": [
     {
       "id": "p01",
-      "src": "../assets/img/portfolio/p01.svg",
-      "alt": "Tatuaż – praca 01 (placeholder)",
+      "src": "../assets/img/portfolio/dziolcha1.png",
+      "alt": "Jaskółka",
       "featured": true
     },
     {
       "id": "p02",
-      "src": "../assets/img/portfolio/p02.svg",
-      "alt": "Tatuaż – praca 02 (placeholder)",
+      "src": "../assets/img/portfolio/dziolcha2.png",
+      "alt": "Omen",
       "featured": true
     },
     {
       "id": "p03",
-      "src": "../assets/img/portfolio/p03.svg",
-      "alt": "Tatuaż – praca 03 (placeholder)",
+      "src": "../assets/img/portfolio/faun.png",
+      "alt": "Faun",
       "featured": true
     },
     {
-      "id": "p04",
-      "src": "../assets/img/portfolio/p04.svg",
-      "alt": "Tatuaż – praca 04 (placeholder)",
+      "id": "p03",
+      "src": "../assets/img/portfolio/geisha.png",
+      "alt": "Geisha",
       "featured": true
     },
     {
       "id": "p05",
-      "src": "../assets/img/portfolio/p05.svg",
-      "alt": "Tatuaż – praca 05 (placeholder)",
+      "src": "../assets/img/portfolio/kwiaty_kolor",
+      "alt": "Kwiaty (kolor)",
       "featured": true
     },
     {
       "id": "p06",
-      "src": "../assets/img/portfolio/p06.svg",
-      "alt": "Tatuaż – praca 06 (placeholder)",
+      "src": "../assets/img/portfolio/mucha1.png",
+      "alt": "Alfons Mucha – Odpoczynek nocy",
       "featured": true
     },
     {
       "id": "p07",
-      "src": "../assets/img/portfolio/p07.svg",
-      "alt": "Tatuaż – praca 07 (placeholder)",
-      "featured": false
+      "src": "../assets/img/portfolio/mucha2.png",
+      "alt": "Alfons Mucha – Księżyc",
+      "featured": true
     },
     {
       "id": "p08",
-      "src": "../assets/img/portfolio/p08.svg",
-      "alt": "Tatuaż – praca 08 (placeholder)",
-      "featured": false
-    },
-    {
-      "id": "p09",
-      "src": "../assets/img/portfolio/p09.svg",
-      "alt": "Tatuaż – praca 09 (placeholder)",
-      "featured": false
-    },
-    {
-      "id": "p10",
-      "src": "../assets/img/portfolio/p10.svg",
-      "alt": "Tatuaż – praca 10 (placeholder)",
-      "featured": false
-    },
-    {
-      "id": "p11",
-      "src": "../assets/img/portfolio/p11.svg",
-      "alt": "Tatuaż – praca 11 (placeholder)",
-      "featured": false
-    },
-    {
-      "id": "p12",
-      "src": "../assets/img/portfolio/p12.svg",
-      "alt": "Tatuaż – praca 12 (placeholder)",
+      "src": "../assets/img/portfolio/wiedzma.png",
+      "alt": "Wiedźma",
       "featured": false
     }
   ]
