@@ -4,19 +4,135 @@ const DATA_URL = "./data/portfolio.json";
 
 function setupCarousel(root) {
   const track = qs("[data-track]", root);
-  const prev = qs("[data-prev]", root);
-  const next = qs("[data-next]", root);
   if (!track) return;
 
-  const scrollBySlide = (dir) => {
+  // Zapobiegamy ponownej inicjalizacji (np. gdyby ktoś wywołał setup 2x)
+  if (track.dataset.carouselInit === "1") return;
+  track.dataset.carouselInit = "1";
+
+  const gap = 12;
+
+  // ========== Anti-save (tylko karuzela) ==========
+  // (Nie da się zablokować „na 100%”, ale blokujemy: prawy klik, drag, long-press iOS)
+  track.addEventListener("contextmenu", (e) => {
+    const t = e.target;
+    if (t && t.tagName === "IMG") e.preventDefault();
+  });
+  track.addEventListener("dragstart", (e) => {
+    const t = e.target;
+    if (t && t.tagName === "IMG") e.preventDefault();
+  });
+
+  // ========== Helpers ==========
+  const getStep = () => {
     const first = track.querySelector(".slide");
     const slideW = first ? first.getBoundingClientRect().width : 320;
-    const gap = 12;
-    track.scrollBy({ left: dir * (slideW + gap), behavior: "smooth" });
+    return slideW + gap;
   };
 
-  prev?.addEventListener("click", () => scrollBySlide(-1));
-  next?.addEventListener("click", () => scrollBySlide(1));
+  // ========== Loop (klony na początku i końcu) ==========
+  const initLoop = () => {
+    if (track.dataset.loopInit === "1") return;
+
+    const slides = Array.from(track.querySelectorAll(".slide"));
+    if (slides.length < 2) return;
+
+    const cloneCount = Math.min(3, slides.length);
+
+    const headClones = slides
+      .slice(0, cloneCount)
+      .map((el) => el.cloneNode(true));
+    const tailClones = slides
+      .slice(-cloneCount)
+      .map((el) => el.cloneNode(true));
+
+    headClones.forEach((c) => c.setAttribute("data-clone", "1"));
+    tailClones.forEach((c) => c.setAttribute("data-clone", "1"));
+
+    // prepend: ostatnie
+    tailClones.reverse().forEach((c) => track.prepend(c));
+    // append: pierwsze
+    headClones.forEach((c) => track.append(c));
+
+    track.dataset.loopInit = "1";
+
+    // Przeskok na „prawdziwy” start po renderze/layout
+    requestAnimationFrame(() => {
+      const step = getStep();
+      track.scrollLeft = cloneCount * step;
+    });
+
+    // Teleport na scroll (niewidoczny dla usera)
+    let lock = false;
+    track.addEventListener("scroll", () => {
+      if (lock) return;
+
+      const step = getStep();
+      const originals = slides.length;
+      const cloneOffset = cloneCount * step;
+
+      // Uwaga: track zawiera teraz: [tailClones][originals][headClones]
+      const min = cloneOffset - step * 0.6;
+      const max = cloneOffset + originals * step + step * 0.6;
+
+      if (track.scrollLeft < min) {
+        lock = true;
+        track.scrollLeft += originals * step;
+        requestAnimationFrame(() => (lock = false));
+      } else if (track.scrollLeft > max) {
+        lock = true;
+        track.scrollLeft -= originals * step;
+        requestAnimationFrame(() => (lock = false));
+      }
+    });
+  };
+
+  initLoop();
+
+  // ========== Autoplay ==========
+  // Ustawiasz w HTML: <div class="carousel" data-carousel data-autoplay="5000">
+  const autoplayMs = Number(root.getAttribute("data-autoplay") || "5000");
+  const enabledAutoplay = Number.isFinite(autoplayMs) && autoplayMs > 0;
+
+  let timer = null;
+  let paused = false;
+
+  const next = () => {
+    const step = getStep();
+    track.scrollBy({ left: step, behavior: "smooth" });
+  };
+
+  const start = () => {
+    if (!enabledAutoplay) return;
+    stop();
+    timer = window.setInterval(() => {
+      if (!paused) next();
+    }, autoplayMs);
+  };
+
+  const stop = () => {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  };
+
+  // pause na hover/focus + gdy user dotknie/scrolluje
+  root.addEventListener("mouseenter", () => (paused = true));
+  root.addEventListener("mouseleave", () => (paused = false));
+  root.addEventListener("focusin", () => (paused = true));
+  root.addEventListener("focusout", () => (paused = false));
+
+  let userHold = null;
+  const pauseOnUser = () => {
+    paused = true;
+    if (userHold) window.clearTimeout(userHold);
+    userHold = window.setTimeout(() => (paused = false), 1200);
+  };
+
+  track.addEventListener("pointerdown", pauseOnUser, { passive: true });
+  track.addEventListener("touchstart", pauseOnUser, { passive: true });
+  track.addEventListener("wheel", pauseOnUser, { passive: true });
+
+  start();
 }
 
 async function renderFeatured() {
