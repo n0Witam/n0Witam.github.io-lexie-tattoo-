@@ -143,6 +143,20 @@ a:hover {
     align-items: center;
 }
 
+.btn--ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent); /* automatycznie zmieni się z dark/light */
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
 /* ====== Buttons ====== */
 
 .btn {
