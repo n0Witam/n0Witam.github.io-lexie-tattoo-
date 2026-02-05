@@ -380,7 +380,7 @@ a:hover {
 
 .carousel {
     position: relative;
-    isolation: isolate;
+    isolation: isolate
 
     /* sterowanie szerokością slajdu */
     --slide-w: clamp(220px, 62vw, 520px);
