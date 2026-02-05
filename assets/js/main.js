@@ -31,17 +31,21 @@ function setupCarousel(root) {
   };
 
   // ========== Loop (klony na początku i końcu) ==========
+  // ========== Loop (klony na początku i końcu) ==========
   const initLoop = () => {
     if (track.dataset.loopInit === "1") return;
 
     const slides = Array.from(track.querySelectorAll(".slide"));
     if (slides.length < 2) return;
 
-    const cloneCount = Math.min(3, slides.length);
+    const originalsCount = slides.length;
+    const cloneCount = Math.min(3, originalsCount);
 
+    // klony
     const headClones = slides
       .slice(0, cloneCount)
       .map((el) => el.cloneNode(true));
+
     const tailClones = slides
       .slice(-cloneCount)
       .map((el) => el.cloneNode(true));
@@ -49,46 +53,49 @@ function setupCarousel(root) {
     headClones.forEach((c) => c.setAttribute("data-clone", "1"));
     tailClones.forEach((c) => c.setAttribute("data-clone", "1"));
 
-    // prepend: ostatnie
+    // prepend tail clones
     tailClones.reverse().forEach((c) => track.prepend(c));
-    // append: pierwsze
+    // append head clones
     headClones.forEach((c) => track.append(c));
 
     track.dataset.loopInit = "1";
 
-    // Przeskok na „prawdziwy” start po renderze/layout
+    // przeskok na początek prawdziwych slajdów
     requestAnimationFrame(() => {
       const step = getStep();
       track.scrollLeft = cloneCount * step;
+
+      // wycentruj bez animacji
+      requestAnimationFrame(() => centerToIndex(getCenteredIndex(), "auto"));
     });
 
-    // Teleport na scroll (niewidoczny dla usera)
     let lock = false;
+
     track.addEventListener("scroll", () => {
       if (lock) return;
 
-      requestAnimationFrame(() => {
-        const step = getStep();
-        track.scrollLeft = cloneCount * step;
+      const step = getStep();
 
-        // 🔥 dopnij do idealnego środka po starcie (bez animacji)
-        requestAnimationFrame(() => centerToIndex(getCenteredIndex(), "auto"));
-      });
+      // offset gdzie zaczynają się oryginały
+      const start = cloneCount * step;
+      const end = start + originalsCount * step;
 
-      // Uwaga: track zawiera teraz: [tailClones][originals][headClones]
-      const min = cloneOffset - step * 0.6;
-      const max = cloneOffset + originals * step + step * 0.6;
-
-      if (track.scrollLeft < min) {
+      // jeśli user zjedzie za daleko w lewo
+      if (track.scrollLeft <= start - step * 0.8) {
         lock = true;
-        track.scrollLeft += originals * step;
+        track.scrollLeft += originalsCount * step;
+
         requestAnimationFrame(() => {
           lock = false;
           centerToIndex(getCenteredIndex(), "auto");
         });
-      } else if (track.scrollLeft > max) {
+      }
+
+      // jeśli user zjedzie za daleko w prawo
+      if (track.scrollLeft >= end + step * 0.8) {
         lock = true;
-        track.scrollLeft -= originals * step;
+        track.scrollLeft -= originalsCount * step;
+
         requestAnimationFrame(() => {
           lock = false;
           centerToIndex(getCenteredIndex(), "auto");
