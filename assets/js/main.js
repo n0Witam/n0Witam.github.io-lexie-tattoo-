@@ -67,9 +67,13 @@ function setupCarousel(root) {
     track.addEventListener("scroll", () => {
       if (lock) return;
 
-      const step = getStep();
-      const originals = slides.length;
-      const cloneOffset = cloneCount * step;
+      requestAnimationFrame(() => {
+        const step = getStep();
+        track.scrollLeft = cloneCount * step;
+
+        // 🔥 dopnij do idealnego środka po starcie (bez animacji)
+        requestAnimationFrame(() => centerToIndex(getCenteredIndex(), "auto"));
+      });
 
       // Uwaga: track zawiera teraz: [tailClones][originals][headClones]
       const min = cloneOffset - step * 0.6;
@@ -78,11 +82,17 @@ function setupCarousel(root) {
       if (track.scrollLeft < min) {
         lock = true;
         track.scrollLeft += originals * step;
-        requestAnimationFrame(() => (lock = false));
+        requestAnimationFrame(() => {
+          lock = false;
+          centerToIndex(getCenteredIndex(), "auto");
+        });
       } else if (track.scrollLeft > max) {
         lock = true;
         track.scrollLeft -= originals * step;
-        requestAnimationFrame(() => (lock = false));
+        requestAnimationFrame(() => {
+          lock = false;
+          centerToIndex(getCenteredIndex(), "auto");
+        });
       }
     });
   };
@@ -97,10 +107,50 @@ function setupCarousel(root) {
   let timer = null;
   let paused = false;
 
-  const next = () => {
-    const step = getStep();
-    track.scrollBy({ left: step, behavior: "smooth" });
+  // ====== Center-snap helpers (działa niezależnie od gap/padding/klonów) ======
+  const slidesAll = () => Array.from(track.querySelectorAll(".slide"));
+
+  const getTrackCenterX = () => {
+    const rT = track.getBoundingClientRect();
+    return rT.left + rT.width / 2;
   };
+
+  const getSlideCenterX = (el) => {
+    const r = el.getBoundingClientRect();
+    return r.left + r.width / 2;
+  };
+
+  const getCenteredIndex = () => {
+    const slides = slidesAll();
+    if (!slides.length) return 0;
+
+    const cx = getTrackCenterX();
+    let best = 0;
+    let bestDist = Infinity;
+
+    slides.forEach((el, i) => {
+      const d = Math.abs(getSlideCenterX(el) - cx);
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    });
+
+    return best;
+  };
+
+  const centerToIndex = (idx, behavior = "smooth") => {
+    const slides = slidesAll();
+    if (!slides.length) return;
+
+    idx = Math.max(0, Math.min(slides.length - 1, idx));
+    const el = slides[idx];
+
+    const delta = getSlideCenterX(el) - getTrackCenterX();
+    track.scrollBy({ left: delta, behavior });
+  };
+
+  const next = () => centerToIndex(getCenteredIndex() + 1);
 
   const start = () => {
     if (!enabledAutoplay) return;
@@ -158,6 +208,7 @@ async function renderFeatured() {
       img.alt = item.alt || "Tatuaż – praca Lexie";
       img.loading = "lazy";
       img.decoding = "async";
+      img.draggable = false;
 
       const fig = document.createElement("figure");
       fig.className = "slide";

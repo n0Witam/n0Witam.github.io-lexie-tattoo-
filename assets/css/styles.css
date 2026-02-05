@@ -418,7 +418,7 @@ a:hover {
     );
 }
 
-..carousel__track::-webkit-scrollbar {
+.carousel__track::-webkit-scrollbar {
     height: 12px;
 }
 .carousel__track::-webkit-scrollbar-thumb {
@@ -444,6 +444,13 @@ a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.carousel__track .slide img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none; /* iOS long-press */
 }
 
 .carousel__controls {
