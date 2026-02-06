@@ -656,6 +656,17 @@ a:hover {
     border-radius: inherit; /* przejmuje radius z .card */
 }
 
+.mapLink {
+    display: block;
+    position: relative;
+} /* dodatkowo stabilizuje overlay w ramach linka */
+.mapOverlay {
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    z-index: 2;
+}
+
 /* ====== Footer ====== */
 
 .footer {
