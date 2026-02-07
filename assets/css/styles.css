@@ -53,20 +53,22 @@ body {
         "Segoe UI Emoji";
     line-height: 1.45;
     letter-spacing: 0.2px;
+    position: relative;
 }
 
 body::before {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
 
     background-image: url("../img/paper-texture.webp");
-    background-size: 1400px;
+    background-size: 2000px;
     background-repeat: repeat;
+    background-position: center;
 
-    opacity: 0.25;
+    opacity: 0.18;
     mix-blend-mode: soft-light;
 }
 
