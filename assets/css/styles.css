@@ -670,7 +670,7 @@ a:hover {
     left: 50%;
     transform: translateX(-50%);
 
-    width: min(460px, 92%); /* czytelne i ograniczone */
+    width: min(360px, 92%); /* czytelne i ograniczone */
     overflow-wrap: anywhere;
     word-break: break-word;
 
