@@ -82,17 +82,21 @@ function setupCarousel(root) {
       "scroll",
       () => {
         if (lock) return;
-        if (isProgrammatic()) return;
 
         if (scrollEndT) clearTimeout(scrollEndT);
 
         scrollEndT = setTimeout(() => {
-          const step = getStep();
+          // jeśli to wciąż nasz programatyczny scroll (autoplay/centrowanie),
+          // to poczekaj jeszcze chwilę i spróbuj ponownie
+          if (isProgrammatic()) {
+            scrollEndT = setTimeout(arguments.callee, 120);
+            return;
+          }
 
+          const step = getStep();
           const start = cloneCount * step;
           const end = start + originalsCount * step;
 
-          // 🔁 TELEPORT: tylko scrollLeft shift (bez centerToIndex)
           if (track.scrollLeft < start - step * 0.25) {
             lock = true;
             markProgrammatic(350);
@@ -167,9 +171,14 @@ function setupCarousel(root) {
     track.scrollBy({ left: delta, behavior });
   };
 
-  const isCoarse = window.matchMedia("(pointer: coarse)").matches;
-  const next = () =>
-    centerToIndex(getCenteredIndex() + 1, isCoarse ? "auto" : "smooth");
+  const prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  const next = () => {
+    const behavior = prefersReduced ? "auto" : "smooth";
+    centerToIndex(getCenteredIndex() + 1, behavior);
+  };
 
   const start = () => {
     if (!enabledAutoplay) return;

@@ -496,13 +496,6 @@ a:hover {
     -webkit-touch-callout: none; /* iOS long-press */
 }
 
-.carousel__controls {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
-
 /* ====== Forms ====== */
 
 .form {
