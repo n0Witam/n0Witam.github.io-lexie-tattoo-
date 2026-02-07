@@ -63,13 +63,17 @@ body::before {
     pointer-events: none;
     z-index: 0;
 
-    background-image: url("../img/paper-texture.webp");
-    background-size: 2000px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    background-position: center;
+    background-size: 350px 350px;
 
-    opacity: 0.18;
-    mix-blend-mode: soft-light;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
 }
 
 body > * {
