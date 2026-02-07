@@ -25,12 +25,15 @@ function setupCarousel(root) {
 
   // ========== Helpers ==========
   const getStep = () => {
-    const first = track.querySelector(".slide");
-    const slideW = first ? first.getBoundingClientRect().width : 320;
-    return slideW + gap;
+    const slides = Array.from(track.querySelectorAll(".slide"));
+    if (slides.length >= 2) {
+      // realny krok (uwzględnia gap z CSS i responsywne szerokości)
+      return slides[1].offsetLeft - slides[0].offsetLeft;
+    }
+    const first = slides[0];
+    return first ? first.getBoundingClientRect().width : 320;
   };
 
-  // ========== Loop (klony na początku i końcu) ==========
   // ========== Loop (klony na początku i końcu) ==========
   const initLoop = () => {
     if (track.dataset.loopInit === "1") return;
@@ -213,6 +216,7 @@ async function renderFeatured() {
       const img = document.createElement("img");
       img.src = src;
       img.alt = item.alt || "Tatuaż – praca Lexie";
+      img.loading = "eager";
       img.decoding = "async";
       img.draggable = false;
 
