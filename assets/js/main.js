@@ -213,7 +213,6 @@ async function renderFeatured() {
       const img = document.createElement("img");
       img.src = src;
       img.alt = item.alt || "Tatuaż – praca Lexie";
-      img.loading = "lazy";
       img.decoding = "async";
       img.draggable = false;
 
