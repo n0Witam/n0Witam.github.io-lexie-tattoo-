@@ -643,31 +643,50 @@ a:hover {
 /* ====== Map ====== */
 
 .card--map {
-    padding: 0; /* usuwa odstęp */
-    overflow: hidden; /* maskuje iframe do radiusa */
+    padding: 0;
+    overflow: hidden;
     position: relative;
 }
 
 .card--map img {
-    display: block; /* usuwa domyślne whitespace */
     width: 100%;
     height: auto;
-    border: 0;
-    border-radius: inherit; /* przejmuje radius z .card */
+    aspect-ratio: 1 / 1; /* lub np. 4/3 */
+    object-fit: cover;
+    display: block;
 }
 
 .mapLink {
     display: block;
-    position: relative;
-} /* dodatkowo stabilizuje overlay w ramach linka */
+    position: relative; /* punkt odniesienia dla absolute */
+}
 
+/* Overlay MA BYĆ absolutny */
 .mapOverlay {
-    position: absolute;
-    top: 3%;
-    left: 3%;
-    z-index: 2;
+    position: absolute; /* ✅ brakowało */
+    z-index: 2; /* ✅ żeby było nad mapą */
+    top: 14px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(460px, 92%); /* czytelne i ograniczone */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
     backdrop-filter: blur(5px);
     background: color-mix(in srgb, var(--bg) 50%, transparent);
+}
+
+@media (max-width: 600px) {
+    .mapOverlay {
+        top: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .mapOverlay.card {
+        padding: 14px;
+    }
 }
 
 /* ====== Footer ====== */
