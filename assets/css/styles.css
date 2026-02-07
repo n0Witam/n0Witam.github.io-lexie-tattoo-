@@ -419,7 +419,7 @@ a:hover {
     /* żeby “peek” boków był widoczny (jeśli masz fade overlay) */
     .carousel::before,
     .carousel::after {
-        width: 28px;
+        width: 10px;
     }
 }
 
@@ -494,6 +494,13 @@ a:hover {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none; /* iOS long-press */
+}
+
+.works__cta {
+    margin-top: 14px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
 }
 
 /* ====== Forms ====== */
