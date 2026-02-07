@@ -3,12 +3,12 @@
    ========================================================== */
 
 :root {
-    --bg: #0b0b0c;
+    --bg: #171717;
     --bg-2: #101114;
-    --text: #f4f4f5;
+    --text: #fef8f0;
     --muted: rgba(244, 244, 245, 0.72);
     --border: rgba(244, 244, 245, 0.12);
-    --accent: #f4f4f5;
+    --accent: #fef8f0;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     --radius: 18px;
     --radius-sm: 12px;
@@ -20,12 +20,12 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --bg: #ffffff;
+        --bg: #fef8f0;
         --bg-2: #f5f6f8;
-        --text: #0b0b0c;
+        --text: #171717;
         --muted: rgba(11, 11, 12, 0.68);
         --border: rgba(11, 11, 12, 0.12);
-        --accent: #0b0b0c;
+        --accent: #171717;
         --shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         --focus: 0 0 0 3px rgba(11, 11, 12, 0.15);
     }
@@ -209,13 +209,14 @@ a:hover {
 
 .hero {
     padding: 46px 0 36px;
+    padding-bottom: 0;
 }
 
 .hero__grid {
     display: grid;
-    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-columns: 1.35fr 0.65fr;
     gap: var(--gap-lg);
-    align-items: center;
+    align-items: stretch; /* <- było center, zmieniamy */
 }
 
 @media (max-width: 900px) {
@@ -255,6 +256,7 @@ a:hover {
 .hero__side {
     display: flex;
     justify-content: flex-end;
+    height: 100%; /* ważne */
 }
 
 @media (max-width: 900px) {
@@ -615,14 +617,14 @@ a:hover {
 /* Prawa kolumna: obraz przyklejony do dołu */
 .contact__imageWrap {
     display: flex;
-    align-items: flex-end; /* dół do dołu */
-    height: 100%;
+    align-items: flex-end; /* przykleja do dołu */
+    height: 100%; /* ważne */
+    width: 100%;
 }
 
 .contact__image {
     width: 100%;
-    height: 100%;
-    max-height: 100%;
+    height: auto;
     object-fit: contain;
     object-position: bottom;
     display: block;
@@ -638,6 +640,35 @@ a:hover {
         align-items: center;
         margin-top: 18px;
     }
+}
+
+.btn--ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    flex: 0 0 auto;
+}
+
+.ig-card {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    align-items: center;
+    text-align: center;
+}
+
+.ig-card .btn {
+    width: 80%;
+    justify-content: center;
 }
 
 /* ====== Map ====== */
