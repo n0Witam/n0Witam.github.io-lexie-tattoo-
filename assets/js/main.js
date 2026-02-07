@@ -78,9 +78,6 @@ function setupCarousel(root) {
     let lock = false;
     let scrollEndT = null;
 
-    let lock = false;
-    let scrollEndT = null;
-
     track.addEventListener(
       "scroll",
       () => {
@@ -110,6 +107,7 @@ function setupCarousel(root) {
       },
       { passive: true },
     );
+  };
 
   // ========== Autoplay ==========
   // Ustawiasz w HTML: <div class="carousel" data-carousel data-autoplay="5000">
