@@ -75,43 +75,32 @@ function setupCarousel(root) {
     let lock = false;
     let scrollEndT = null;
 
-    track.addEventListener("scroll", () => {
-      if (lock) return;
+    track.addEventListener(
+      "scroll",
+      () => {
+        if (lock) return;
 
-      // debounce: korekta dopiero gdy scroll “ustanie”
-      if (scrollEndT) clearTimeout(scrollEndT);
+        if (scrollEndT) clearTimeout(scrollEndT);
 
-      scrollEndT = setTimeout(() => {
-        const step = getStep();
+        scrollEndT = setTimeout(() => {
+          const step = getStep();
 
-        const start = cloneCount * step;
-        const end = start + originalsCount * step;
+          const start = cloneCount * step;
+          const end = start + originalsCount * step;
 
-        // Uwaga: tylko jedna ścieżka na raz (else-if)
-        if (track.scrollLeft < start - step * 0.5) {
-          lock = true;
-          track.scrollLeft = Math.round(track.scrollLeft + originalsCount * step);
-          requestAnimationFrame(() => (lock = false));
-        } else if (track.scrollLeft > end + step * 0.5) {
-          lock = true;
-          track.scrollLeft = Math.round(track.scrollLeft - originalsCount * step);
-          requestAnimationFrame(() => (lock = false));
-        }
-      }, 80);
-    }, { passive: true });
-
-      // jeśli user zjedzie za daleko w prawo
-      if (track.scrollLeft >= end + step * 0.8) {
-        lock = true;
-        track.scrollLeft -= originalsCount * step;
-
-        requestAnimationFrame(() => {
-          lock = false;
-          centerToIndex(getCenteredIndex(), "auto");
-        });
-      }
-    });
-  };
+          if (track.scrollLeft < start - step * 0.5) {
+            lock = true;
+            track.scrollLeft = Math.round(track.scrollLeft + originalsCount * step);
+            requestAnimationFrame(() => (lock = false));
+          } else if (track.scrollLeft > end + step * 0.5) {
+            lock = true;
+            track.scrollLeft = Math.round(track.scrollLeft - originalsCount * step);
+            requestAnimationFrame(() => (lock = false));
+          }
+        }, 80);
+      },
+      { passive: true },
+    );
 
   initLoop();
 
