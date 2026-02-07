@@ -63,6 +63,9 @@ function setupCarousel(root) {
 
     track.dataset.loopInit = "1";
 
+    const firstReal = cloneCount;
+    const lastReal = cloneCount + originalsCount - 1;
+
     // przeskok na początek prawdziwych slajdów
     requestAnimationFrame(() => {
       const step = getStep();
@@ -75,6 +78,9 @@ function setupCarousel(root) {
     let lock = false;
     let scrollEndT = null;
 
+    let lock = false;
+    let scrollEndT = null;
+
     track.addEventListener(
       "scroll",
       () => {
@@ -83,29 +89,27 @@ function setupCarousel(root) {
         if (scrollEndT) clearTimeout(scrollEndT);
 
         scrollEndT = setTimeout(() => {
-          const step = getStep();
+          const idx = getCenteredIndex();
 
-          const start = cloneCount * step;
-          const end = start + originalsCount * step;
+          // jeśli jesteś w klonach po lewej — przeskocz na odpowiadający realny slajd z końca
+          if (idx < firstReal) {
+            lock = true;
+            centerToIndex(idx + originalsCount, "auto");
+            requestAnimationFrame(() => (lock = false));
+            return;
+          }
 
-          if (track.scrollLeft < start - step * 0.5) {
+          // jeśli jesteś w klonach po prawej — przeskocz na odpowiadający realny slajd z początku
+          if (idx > lastReal) {
             lock = true;
-            track.scrollLeft = Math.round(
-              track.scrollLeft + originalsCount * step,
-            );
+            centerToIndex(idx - originalsCount, "auto");
             requestAnimationFrame(() => (lock = false));
-          } else if (track.scrollLeft > end + step * 0.5) {
-            lock = true;
-            track.scrollLeft = Math.round(
-              track.scrollLeft - originalsCount * step,
-            );
-            requestAnimationFrame(() => (lock = false));
+            return;
           }
         }, 80);
       },
       { passive: true },
     );
-  };
 
   // ========== Autoplay ==========
   // Ustawiasz w HTML: <div class="carousel" data-carousel data-autoplay="5000">
