@@ -449,6 +449,7 @@ a:hover {
     gap: var(--gap);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 
     /* klucz: padding, który pozwala centrować pierwszy i ostatni slajd */
     padding-block: 10px 16px;

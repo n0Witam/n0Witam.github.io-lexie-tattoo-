@@ -73,26 +73,32 @@ function setupCarousel(root) {
     });
 
     let lock = false;
+    let scrollEndT = null;
 
     track.addEventListener("scroll", () => {
       if (lock) return;
 
-      const step = getStep();
+      // debounce: korekta dopiero gdy scroll “ustanie”
+      if (scrollEndT) clearTimeout(scrollEndT);
 
-      // offset gdzie zaczynają się oryginały
-      const start = cloneCount * step;
-      const end = start + originalsCount * step;
+      scrollEndT = setTimeout(() => {
+        const step = getStep();
 
-      // jeśli user zjedzie za daleko w lewo
-      if (track.scrollLeft <= start - step * 0.8) {
-        lock = true;
-        track.scrollLeft += originalsCount * step;
+        const start = cloneCount * step;
+        const end = start + originalsCount * step;
 
-        requestAnimationFrame(() => {
-          lock = false;
-          centerToIndex(getCenteredIndex(), "auto");
-        });
-      }
+        // Uwaga: tylko jedna ścieżka na raz (else-if)
+        if (track.scrollLeft < start - step * 0.5) {
+          lock = true;
+          track.scrollLeft = Math.round(track.scrollLeft + originalsCount * step);
+          requestAnimationFrame(() => (lock = false));
+        } else if (track.scrollLeft > end + step * 0.5) {
+          lock = true;
+          track.scrollLeft = Math.round(track.scrollLeft - originalsCount * step);
+          requestAnimationFrame(() => (lock = false));
+        }
+      }, 80);
+    }, { passive: true });
 
       // jeśli user zjedzie za daleko w prawo
       if (track.scrollLeft >= end + step * 0.8) {
@@ -160,7 +166,8 @@ function setupCarousel(root) {
     track.scrollBy({ left: delta, behavior });
   };
 
-  const next = () => centerToIndex(getCenteredIndex() + 1);
+  const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+  const next = () => centerToIndex(getCenteredIndex() + 1, isCoarse ? "auto" : "smooth");
 
   const start = () => {
     if (!enabledAutoplay) return;
