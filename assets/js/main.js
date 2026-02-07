@@ -78,37 +78,36 @@ function setupCarousel(root) {
     let lock = false;
     let scrollEndT = null;
 
+    const normalizeLoop = () => {
+      if (lock) return;
+
+      if (isProgrammatic()) {
+        scrollEndT = setTimeout(normalizeLoop, 120);
+        return;
+      }
+
+      const step = getStep();
+      const start = cloneCount * step;
+      const end = start + originalsCount * step;
+
+      if (track.scrollLeft < start - step * 0.25) {
+        lock = true;
+        markProgrammatic(350);
+        track.scrollLeft = track.scrollLeft + originalsCount * step;
+        requestAnimationFrame(() => (lock = false));
+      } else if (track.scrollLeft > end + step * 0.25) {
+        lock = true;
+        markProgrammatic(350);
+        track.scrollLeft = track.scrollLeft - originalsCount * step;
+        requestAnimationFrame(() => (lock = false));
+      }
+    };
+
     track.addEventListener(
       "scroll",
       () => {
-        if (lock) return;
-
         if (scrollEndT) clearTimeout(scrollEndT);
-
-        scrollEndT = setTimeout(() => {
-          // jeśli to wciąż nasz programatyczny scroll (autoplay/centrowanie),
-          // to poczekaj jeszcze chwilę i spróbuj ponownie
-          if (isProgrammatic()) {
-            scrollEndT = setTimeout(arguments.callee, 120);
-            return;
-          }
-
-          const step = getStep();
-          const start = cloneCount * step;
-          const end = start + originalsCount * step;
-
-          if (track.scrollLeft < start - step * 0.25) {
-            lock = true;
-            markProgrammatic(350);
-            track.scrollLeft = track.scrollLeft + originalsCount * step;
-            requestAnimationFrame(() => (lock = false));
-          } else if (track.scrollLeft > end + step * 0.25) {
-            lock = true;
-            markProgrammatic(350);
-            track.scrollLeft = track.scrollLeft - originalsCount * step;
-            requestAnimationFrame(() => (lock = false));
-          }
-        }, 140); // <- 80 bywa za agresywne na mobile
+        scrollEndT = setTimeout(normalizeLoop, 140);
       },
       { passive: true },
     );
