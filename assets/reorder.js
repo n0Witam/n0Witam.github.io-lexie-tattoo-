@@ -1,6 +1,13 @@
 import { fetchJSON, resolveUrl, qs, el } from "./util.js";
 
-const DATA_URL = "../data/portfolio.json";
+// Uwaga: reorder.html bywa umieszczany w różnych katalogach (root / admin / portfolio).
+// fetch() rozwiązuje ścieżki względne względem aktualnego URL dokumentu, więc używamy listy fallbacków.
+const DATA_URL_CANDIDATES = [
+  "../data/portfolio.json",
+  "./data/portfolio.json",
+  "data/portfolio.json",
+  "/data/portfolio.json",
+];
 
 const PINNED_GROUP_ID = "wolne-wzory";
 const PINNED_GROUP_NAME = "Wolne wzory";
@@ -207,12 +214,22 @@ async function init() {
   status.textContent = "Wczytuję…";
 
   let data, url;
-  try {
-    ({ data, url } = await fetchJSON(DATA_URL));
-  } catch (err) {
-    console.error(err);
+  let lastErr = null;
+  let usedPath = null;
+  for (const candidate of DATA_URL_CANDIDATES) {
+    try {
+      ({ data, url } = await fetchJSON(candidate));
+      usedPath = candidate;
+      break;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+
+  if (!data) {
+    console.error(lastErr);
     status.textContent =
-      "Nie udało się wczytać JSON (sprawdź ścieżkę ../data/portfolio.json).";
+      "Nie udało się wczytać portfolio.json. Sprawdź, czy plik istnieje w /data/portfolio.json oraz czy ścieżka względem strony reorder jest poprawna.";
     return;
   }
 
@@ -667,7 +684,8 @@ async function init() {
   // ------------ Missing items hint ------------
   // If user expects folder scan: show gentle hint with count
   const n = items.length;
-  status.textContent = `Gotowe. Wczytano ${n} prac z portfolio.json. Przeciągaj karty i zapisz JSON.`;
+  const pathInfo = usedPath ? ` (źródło: ${usedPath})` : "";
+  status.textContent = `Gotowe. Wczytano ${n} prac z portfolio.json${pathInfo}. Przeciągaj karty i zapisz JSON.`;
   refreshEmptyHints();
 }
 
