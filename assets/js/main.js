@@ -219,7 +219,41 @@ async function renderFeatured() {
 
   try {
     const { data, url } = await fetchJSON(DATA_URL);
-    const featured = (data.items || []).filter((x) => x.featured).slice(0, 12);
+
+    const items = Array.isArray(data.items) ? data.items : [];
+    const byId = new Map(items.map((x) => [x.id, x]));
+
+    // Zbiór ID należących do grupy „Wolne wzory”
+    const groups = Array.isArray(data.groups) ? data.groups : [];
+    const freeGroup = groups.find(
+      (g) => String(g?.name || "").trim().toLowerCase() === "wolne wzory",
+    );
+    const freeIdsRaw = freeGroup && (freeGroup.items || freeGroup.ids);
+    const freeIds = Array.isArray(freeIdsRaw) ? freeIdsRaw : [];
+    const freeSet = new Set(freeIds);
+
+    // Kolejność karuzeli: featuredOrder (jeśli jest) + dopięcie brakujących featured
+    const seen = new Set();
+    const featuredIds = [];
+
+    const pushIfFeatured = (id) => {
+      if (!id || seen.has(id)) return;
+      const it = byId.get(id);
+      if (!it || !it.featured) return;
+      seen.add(id);
+      featuredIds.push(id);
+    };
+
+    const order = Array.isArray(data.featuredOrder) ? data.featuredOrder : [];
+    order.forEach(pushIfFeatured);
+    items.forEach((it) => {
+      if (it && it.featured) pushIfFeatured(it.id);
+    });
+
+    const featured = featuredIds
+      .slice(0, 12)
+      .map((id) => byId.get(id))
+      .filter(Boolean);
 
     if (featured.length === 0) {
       carouselTrack.innerHTML = "";
@@ -229,8 +263,11 @@ async function renderFeatured() {
       return;
     }
 
+    carouselTrack.innerHTML = "";
+
     for (const item of featured) {
       const src = resolveUrl(item.src, url);
+
       const img = document.createElement("img");
       img.src = src;
       img.alt = item.alt || "Tatuaż – praca Lexie";
@@ -240,6 +277,15 @@ async function renderFeatured() {
 
       const fig = document.createElement("figure");
       fig.className = "slide";
+
+      // Plakietka tylko dla: featured + w grupie „Wolne wzory”
+      if (freeSet.has(item.id)) {
+        const badge = document.createElement("div");
+        badge.className = "slide__badge";
+        badge.textContent = "Wolny wzór!";
+        fig.append(badge);
+      }
+
       fig.append(img);
       carouselTrack.append(fig);
     }
