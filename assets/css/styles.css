@@ -441,7 +441,7 @@ a:hover {
 
 @media (max-width: 600px) {
     .carousel {
-        --slide-w: 70vw; /* trochę większe slajdy */
+        --slide-w: 75vw; /* trochę większe slajdy */
         --gap: 0px; /* mniejsza przerwa */
         .carousel__nav {
             display: none;
