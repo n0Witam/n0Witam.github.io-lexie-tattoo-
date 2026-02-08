@@ -59,8 +59,8 @@
     }
     {
       "id": "faun",
-      "src": "./assets/portfolio/faun.png",
-      "alt": "",
+      "src": "../assets/img/portfolio/faun.png",
+      "alt": "Faun",
       "featured": false
     }
   ]
