@@ -222,20 +222,18 @@ function setupCarousel(root) {
     centerToIndex(getCenteredIndex() - 1, behavior);
   };
 
-  // ===== Mobile: CTA "Chcę ten wzór!" pokazuje się po ~1s od wejścia na slajd =====
-  const isMobilePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-  let mobileArmT = null;
-  let mobileDebounceT = null;
 
-  const clearMobileCta = () => {
-    slidesAll().forEach((el) => el.classList.remove("is-mobile-cta"));
+  // ===== CTA "Chcę ten wzór!" pokazuje się po ~1s od wycentrowania slajdu (wszystkie urządzenia) =====
+  let armT = null;
+  let armDebounceT = null;
+
+  const clearArmed = () => {
+    slidesAll().forEach((el) => el.classList.remove("is-armed"));
   };
 
-  const armMobileCta = () => {
-    if (!isMobilePointer) return;
-
-    clearTimeout(mobileArmT);
-    clearMobileCta();
+  const armCenteredCta = () => {
+    clearTimeout(armT);
+    clearArmed();
 
     const slides = slidesAll();
     if (!slides.length) return;
@@ -243,29 +241,26 @@ function setupCarousel(root) {
     const centered = slides[getCenteredIndex()];
     if (!centered || centered.dataset.freePattern !== "1") return;
 
-    mobileArmT = window.setTimeout(() => {
-      // upewnij się, że nadal jesteśmy na tym samym slajdzie po 1s
-      const now = slidesAll()[getCenteredIndex()];
+    armT = window.setTimeout(() => {
+      // upewnij się, że nadal to ten sam slajd po 1s
+      const nowSlides = slidesAll();
+      const now = nowSlides[getCenteredIndex()];
       if (now === centered && centered.dataset.freePattern === "1") {
-        centered.classList.add("is-mobile-cta");
+        centered.classList.add("is-armed");
       }
     }, 1000);
   };
 
-  const scheduleArmMobileCta = () => {
-    if (!isMobilePointer) return;
-    clearTimeout(mobileDebounceT);
-    clearTimeout(mobileArmT);
-    clearMobileCta();
-    mobileDebounceT = window.setTimeout(armMobileCta, 160);
+  const scheduleArmCenteredCta = () => {
+    clearTimeout(armDebounceT);
+    clearTimeout(armT);
+    clearArmed();
+    armDebounceT = window.setTimeout(armCenteredCta, 160);
   };
 
-  if (isMobilePointer) {
-    track.addEventListener("scroll", scheduleArmMobileCta, { passive: true });
-    // po starcie / pierwszym wycentrowaniu
-    window.setTimeout(armMobileCta, 900);
-  }
-
+  track.addEventListener("scroll", scheduleArmCenteredCta, { passive: true });
+  // po starcie / pierwszym wycentrowaniu (po initLoop scrollLeft jump)
+  window.setTimeout(armCenteredCta, 900);
 
   const start = () => {
     if (!enabledAutoplay) return;
@@ -407,6 +402,42 @@ async function renderFeatured() {
   }
 }
 
+
+function setHiddenMessageField(form, msgEl, value) {
+  if (!form || !msgEl) return null;
+
+  const origName = msgEl.getAttribute("name") || "";
+  if (!origName) return null;
+
+  // ukryte pole z prawdziwą treścią wiadomości (wysyłaną do Google Forms)
+  let hidden = form.querySelector('input[type="hidden"][data-hidden-msg="1"]');
+  if (!hidden) {
+    hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.dataset.hiddenMsg = "1";
+    form.append(hidden);
+  }
+
+  hidden.name = origName;
+  hidden.value = value || "";
+
+  // textarea ma być widoczna dla usera, ale NIE wysyłana (żeby nie wyświetlać URL-i)
+  msgEl.dataset.origName = origName;
+  msgEl.removeAttribute("name");
+
+  return hidden;
+}
+
+function restoreVisibleMessageField(form, msgEl) {
+  if (!form || !msgEl) return;
+
+  const origName = msgEl.dataset.origName;
+  if (origName) msgEl.setAttribute("name", origName);
+
+  const hidden = form.querySelector('input[type="hidden"][data-hidden-msg="1"]');
+  if (hidden) hidden.remove();
+}
+
 function setupContactForm() {
   const form = qs("#contactForm");
   if (!form) return;
@@ -437,15 +468,17 @@ function setupContactForm() {
     }
   };
 
-  const injectUrlsIntoMessage = () => {
-    if (!msgEl) return;
-
+  const buildMessageForSubmit = () => {
+    if (!msgEl) return "";
     const urls = getUploadcareUrls();
     const base = stripImagesBlock(msgEl.value);
-
-    // zdjęcia opcjonalne:
-    msgEl.value = urls.length ? base + SENTINEL_START + urls.join("\n") : base;
+    return urls.length ? base + SENTINEL_START + urls.join("
+") : base;
   };
+
+  // Jeżeli na stronie jest dodatkowy skrypt uploadcare dopinający URL-e do textarea,
+  // to go neutralizujemy — URL-e mają być niewidoczne.
+  window.__lexieSyncUploadUrls = () => {};
 
   if (!action || action.includes("FORM_ID")) {
     status.textContent =
@@ -461,13 +494,13 @@ function setupContactForm() {
       return;
     }
 
-    // ✅ Najważniejsze: dopnij linki TUŻ PRZED FormData
-    injectUrlsIntoMessage();
+    // ✅ Zdjęcia i URL-e dopinamy do UKRYTEGO pola tuż przed FormData
+    const hiddenMsg = buildMessageForSubmit();
+    setHiddenMessageField(form, msgEl, hiddenMsg);
 
     status.textContent = "Wysyłam…";
 
-    // ✅ dopnij linki do textarea *przed* zrobieniem FormData
-    window.__lexieSyncUploadUrls?.();
+    // Nie dopinamy nic do widocznej textarea (URL-e mają być niewidoczne).
 
     // ✅ teraz dopiero bierz FormData
     const fd = new FormData(form);
@@ -481,6 +514,8 @@ function setupContactForm() {
       console.error(err);
       status.textContent =
         "Nie udało się wysłać. Najprościej: napisz DM na Instagramie.";
+    } finally {
+      restoreVisibleMessageField(form, msgEl);
     }
   });
 }
@@ -501,8 +536,7 @@ function ensureFreePatternModal() {
       <button class="modal__close btn" type="button" aria-label="Zamknij" data-close>✕</button>
       <div class="modal__grid">
         <div class="modal__left">
-          <h3 class="modal__title">Chcę ten wzór!</h3>
-          <form id="freePatternForm" class="form" novalidate>
+                    <form id="freePatternForm" class="form" novalidate>
             <div class="field">
               <label for="fp_name">Imię i nazwisko</label>
               <input id="fp_name" name="entry.2005620554" autocomplete="name" required pattern="^[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*(?:\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*)*$" />
@@ -554,8 +588,30 @@ function ensureFreePatternModal() {
   return modal;
 }
 
-function buildFreePatternPrefill(imgUrl) {
-  return `• Wybrany wzór:\n${imgUrl}\n\n• Miejsce na ciele: \n• Rozmiar (cm): \n`;
+function buildFreePatternPrefillVisible() {
+  return `• Wybrany wzór: \n\n• Miejsce na ciele: \n• Rozmiar (cm): \n`;
+}
+
+function buildFreePatternMessageForSubmit(visibleText, imgUrl) {
+  const base = (visibleText || "").trimEnd();
+
+  // Zastąp (lub dodaj) linię z wybranym wzorem URL-em.
+  const lines = base.split(/\r?\n/);
+  const out = [];
+  let injected = false;
+
+  for (const line of lines) {
+    if (!injected && /^•\s*Wybrany\s+wzór\s*:/.test(line)) {
+      out.push(`• Wybrany wzór: ${imgUrl}`);
+      injected = true;
+    } else {
+      out.push(line);
+    }
+  }
+
+  if (!injected) out.unshift(`• Wybrany wzór: ${imgUrl}`);
+
+  return out.join("\n").trimEnd() + "\n";
 }
 
 function mountModalUploader(slotEl) {
@@ -698,16 +754,17 @@ function setupFreePatternForm(modal) {
     }
   };
 
-  const injectUrlsIntoMessage = () => {
-    if (!msgEl) return;
+  const buildMessageForSubmit = (imgUrl) => {
+    if (!msgEl) return "";
     const urls = getUploadcareUrls();
-    const base = stripImagesBlock(msgEl.value);
-    msgEl.value = urls.length ? base + SENTINEL_START + urls.join("\n") : base;
+    const visible = stripImagesBlock(msgEl.value);
+    const withPattern = buildFreePatternMessageForSubmit(visible, imgUrl);
+    return urls.length ? withPattern + SENTINEL_START + urls.join("
+") : withPattern;
   };
 
   // Expose hooks for open()
   form.__fpSetCtx = (newCtx) => (ctxEl = newCtx);
-  form.__fpInjectUrls = injectUrlsIntoMessage;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -726,8 +783,10 @@ function setupFreePatternForm(modal) {
       return;
     }
 
-    // Append Uploadcare URLs right before FormData
-    injectUrlsIntoMessage();
+    // Dopnij niewidoczne URL-e (wybrany wzór + zdjęcia) do ukrytego pola przed FormData
+    const imgUrl = modal.dataset.fpImgUrl || modal.querySelector("#fp_img")?.src || "";
+    const hiddenMsg = buildMessageForSubmit(imgUrl);
+    setHiddenMessageField(form, msgEl, hiddenMsg);
 
     status.textContent = "Wysyłanie…";
     const fd = new FormData(form);
@@ -741,6 +800,8 @@ function setupFreePatternForm(modal) {
       console.error(err);
       status.textContent =
         "Nie udało się wysłać. Najprościej: napisz DM na Instagramie.";
+    } finally {
+      restoreVisibleMessageField(form, msgEl);
     }
   });
 }
@@ -765,7 +826,8 @@ function openFreePatternModal(imgUrl, altText) {
     form.reset();
   }
   if (msg) {
-    msg.value = buildFreePatternPrefill(imgUrl);
+    msg.value = buildFreePatternPrefillVisible();
+    modal.dataset.fpImgUrl = imgUrl;
   }
 
   // (Re)mount uploader each time (fresh selection)
