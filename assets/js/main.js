@@ -222,6 +222,51 @@ function setupCarousel(root) {
     centerToIndex(getCenteredIndex() - 1, behavior);
   };
 
+  // ===== Mobile: CTA "Chcę ten wzór!" pokazuje się po ~1s od wejścia na slajd =====
+  const isMobilePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  let mobileArmT = null;
+  let mobileDebounceT = null;
+
+  const clearMobileCta = () => {
+    slidesAll().forEach((el) => el.classList.remove("is-mobile-cta"));
+  };
+
+  const armMobileCta = () => {
+    if (!isMobilePointer) return;
+
+    clearTimeout(mobileArmT);
+    clearMobileCta();
+
+    const slides = slidesAll();
+    if (!slides.length) return;
+
+    const centered = slides[getCenteredIndex()];
+    if (!centered || centered.dataset.freePattern !== "1") return;
+
+    mobileArmT = window.setTimeout(() => {
+      // upewnij się, że nadal jesteśmy na tym samym slajdzie po 1s
+      const now = slidesAll()[getCenteredIndex()];
+      if (now === centered && centered.dataset.freePattern === "1") {
+        centered.classList.add("is-mobile-cta");
+      }
+    }, 1000);
+  };
+
+  const scheduleArmMobileCta = () => {
+    if (!isMobilePointer) return;
+    clearTimeout(mobileDebounceT);
+    clearTimeout(mobileArmT);
+    clearMobileCta();
+    mobileDebounceT = window.setTimeout(armMobileCta, 160);
+  };
+
+  if (isMobilePointer) {
+    track.addEventListener("scroll", scheduleArmMobileCta, { passive: true });
+    // po starcie / pierwszym wycentrowaniu
+    window.setTimeout(armMobileCta, 900);
+  }
+
+
   const start = () => {
     if (!enabledAutoplay) return;
     stop();
@@ -510,7 +555,7 @@ function ensureFreePatternModal() {
 }
 
 function buildFreePatternPrefill(imgUrl) {
-  return `• Wybrany wzór: ${imgUrl}\n• Miejsce na ciele: \n• Rozmiar (cm): \n`;
+  return `• Wybrany wzór:\n${imgUrl}\n\n• Miejsce na ciele: \n• Rozmiar (cm): \n`;
 }
 
 function mountModalUploader(slotEl) {
@@ -558,11 +603,11 @@ function setupFreePatternForm(modal) {
 
   // ===== Walidacja jak na stronie głównej =====
   const NAME_RE = new RegExp(
-    "^[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*\\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*(?:\\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*)*$"
+    "^[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*\\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*(?:\\s+[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+(?:[-'’][A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿĀ-žḀ-ỿ]+)*)*$",
   );
 
   const PHONE_RE = new RegExp(
-    "^(?:(?:\\+48|0048)[ -]?)?(?:[5-7]\\d{2})[ -]?\\d{3}[ -]?\\d{3}$"
+    "^(?:(?:\\+48|0048)[ -]?)?(?:[5-7]\\d{2})[ -]?\\d{3}[ -]?\\d{3}$",
   );
 
   const setStatus = (msg) => {
@@ -581,12 +626,12 @@ function setupFreePatternForm(modal) {
     const v = normalizeSpaces(nameEl?.value);
     if (nameEl) nameEl.value = v;
 
-    if (!v) return setFieldError(nameEl, "Podaj imię i nazwisko."), false;
+    if (!v) return (setFieldError(nameEl, "Podaj imię i nazwisko."), false);
     if (!NAME_RE.test(v)) {
       return (
         setFieldError(
           nameEl,
-          "Wpisz imię i nazwisko (min. 2 człony), każdy zaczynający się wielką literą."
+          "Wpisz imię i nazwisko (min. 2 człony), każdy zaczynający się wielką literą.",
         ),
         false
       );
@@ -599,12 +644,12 @@ function setupFreePatternForm(modal) {
     const v = (mobileEl?.value || "").trim();
     if (mobileEl) mobileEl.value = v;
 
-    if (!v) return setFieldError(mobileEl, "Podaj numer telefonu."), false;
+    if (!v) return (setFieldError(mobileEl, "Podaj numer telefonu."), false);
     if (!PHONE_RE.test(v)) {
       return (
         setFieldError(
           mobileEl,
-          "Podaj poprawny numer (np. 512 345 678, +48 512 345 678, 0048 512 345 678)."
+          "Podaj poprawny numer (np. 512 345 678, +48 512 345 678, 0048 512 345 678).",
         ),
         false
       );
@@ -615,7 +660,7 @@ function setupFreePatternForm(modal) {
 
   const validateMsg = () => {
     const v = (msgEl?.value || "").trim();
-    if (!v) return setFieldError(msgEl, "Wpisz wiadomość."), false;
+    if (!v) return (setFieldError(msgEl, "Wpisz wiadomość."), false);
     setFieldError(msgEl, "");
     return true;
   };
@@ -669,7 +714,9 @@ function setupFreePatternForm(modal) {
     setStatus("");
 
     if (!action || action.includes("FORM_ID")) {
-      setStatus("Formularz nie jest jeszcze podłączony (brak data-gform-action).");
+      setStatus(
+        "Formularz nie jest jeszcze podłączony (brak data-gform-action).",
+      );
       return;
     }
 
