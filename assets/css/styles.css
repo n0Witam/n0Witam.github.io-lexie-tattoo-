@@ -579,6 +579,9 @@ a:hover {
     inset: 0;
     z-index: 80;
     display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
 }
 
 .modal[aria-hidden="false"] {
@@ -586,12 +589,20 @@ a:hover {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .modal__backdrop {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.62);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.modal[aria-hidden="false"] .modal__backdrop {
+    opacity: 1;
 }
 
 .free-modal {
@@ -614,9 +625,17 @@ a:hover {
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     overflow: hidden;
-
-    /* więcej „oddychu” + miejsce na X */
     padding: 62px 22px 22px;
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+    transition:
+        transform 0.22s cubic-bezier(0.2, 0.9, 0.2, 1),
+        opacity 0.22s ease;
+}
+
+.modal[aria-hidden="false"] .modal__dialog {
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .modal__close {
