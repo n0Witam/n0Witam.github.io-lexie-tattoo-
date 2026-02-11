@@ -699,7 +699,7 @@ a:hover {
         display: flex;
         flex-direction: column;
         height: 100%;
-        gap: 12px;
+        gap: 0px;
     }
 
     /* Zdjęcie NAD formularzem */
@@ -730,7 +730,7 @@ a:hover {
     }
 
     .field textarea {
-        min-height: 100px;
+        min-height: 70px;
 
     /* X nie wchodzi w safe-area */
     .modal__close {
@@ -739,12 +739,12 @@ a:hover {
     }
 }
 
-@media (max-height: 670px) {
+@media (max-height: 720px) {
     .modal__left {
         overflow: scroll;
     }
     .field textarea {
-        min-height: 100px;
+        min-height: 70px;
         resize: vertical;
     }
 }
