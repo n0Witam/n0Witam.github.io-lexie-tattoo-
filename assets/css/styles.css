@@ -732,6 +732,7 @@ a:hover {
 
     .field textarea {
         min-height: 70px;
+    }
 
     /* X nie wchodzi w safe-area */
     .modal__close {
@@ -744,6 +745,7 @@ a:hover {
     .modal__left {
         overflow: scroll;
     }
+
     .field textarea {
         min-height: 70px;
         resize: vertical;
