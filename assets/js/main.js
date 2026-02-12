@@ -852,15 +852,25 @@ function openFreePatternModal(imgUrl, altText) {
 
   if (msg) msg.value = buildFreePatternPrefillVisible();
 
-  modal.setAttribute("aria-hidden", "false");
+  // Trigger CSS transitions reliably (especially on first open)
   document.body.style.overflow = "hidden";
+  const doOpen = () => modal.setAttribute("aria-hidden", "false");
+  // Force reflow so the browser registers the hidden state before animating
+  modal.getBoundingClientRect();
+  requestAnimationFrame(doOpen);
 }
 
 function closeFreePatternModal() {
   const modal = document.getElementById("freePatternModal");
   if (!modal) return;
   modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
+  // Wait for fade-out to finish before restoring scroll
+  window.setTimeout(() => {
+    const m = document.getElementById("freePatternModal");
+    if (m && m.getAttribute("aria-hidden") === "true") {
+      document.body.style.overflow = "";
+    }
+  }, 320);
 }
 
 /* ============================================================

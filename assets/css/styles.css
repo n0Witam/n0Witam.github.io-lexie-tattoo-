@@ -177,6 +177,7 @@ a:hover {
     font-weight: 600;
     letter-spacing: 0.2px;
     cursor: pointer;
+    will-change: transform, opacity;
     transition:
         transform 0.12s ease,
         background 0.12s ease,
@@ -578,19 +579,27 @@ a:hover {
     position: fixed;
     inset: 0;
     z-index: 80;
-    display: none;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s ease;
-}
 
-.modal[aria-hidden="false"] {
-    display: flex;
+    display: flex; /* ✅ zawsze istnieje w layoucie */
     align-items: center;
     justify-content: center;
     padding: 24px;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s linear 0.28s; /* ✅ ukryj po fade-out */
+}
+
+.modal[aria-hidden="false"] {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition:
+        opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s linear 0s;
 }
 
 .modal__backdrop {
@@ -598,7 +607,7 @@ a:hover {
     inset: 0;
     background: rgba(0, 0, 0, 0.62);
     opacity: 0;
-    transition: opacity 0.22s ease;
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal[aria-hidden="false"] .modal__backdrop {
@@ -628,9 +637,10 @@ a:hover {
     padding: 62px 22px 22px;
     transform: translateY(12px) scale(0.98);
     opacity: 0;
+    will-change: transform, opacity;
     transition:
-        transform 0.22s cubic-bezier(0.2, 0.9, 0.2, 1),
-        opacity 0.22s ease;
+        transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal[aria-hidden="false"] .modal__dialog {
@@ -1099,4 +1109,10 @@ a:hover {
     border-radius: 8px;
     color: var(--muted);
     font-size: 12px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .modal, .modal__backdrop, .modal__dialog { transition: none !important; }
+  .modal__dialog { transform: none !important; }
 }
