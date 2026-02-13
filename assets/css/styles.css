@@ -367,6 +367,7 @@ a:hover {
     margin: 0;
     padding: 0;
     list-style: "✧  ";
+    list-style-position: inside;
     display: grid;
     gap: 10px;
     color: var(--muted);
