@@ -1202,12 +1202,3 @@ a:hover {
         transition: none;
     }
 }
-
-.faq-list {
-    padding-left: 22px; /* odsuwa całą listę od lewej */
-    list-style-position: outside; /* kropka zostaje “na zewnątrz” */
-}
-
-.faq-list li {
-    margin: 6px 0;
-}
