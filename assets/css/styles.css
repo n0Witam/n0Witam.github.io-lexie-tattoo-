@@ -1184,7 +1184,7 @@ a:hover {
 }
 
 .faq__aInner {
-    padding: 12px 16px 16px;
+    padding: 25px 50px;
     color: var(--muted);
 }
 
@@ -1204,7 +1204,7 @@ a:hover {
 }
 
 .faq-list {
-    padding: 0 25px 25px 25px;
+    padding: 0 0 0 6px;
     list-style-position: outside;
     display: grid;
     gap: 10px;
