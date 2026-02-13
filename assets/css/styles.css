@@ -1204,8 +1204,11 @@ a:hover {
 }
 
 .faq-list {
-    padding-left: 22px; /* odsuwa całą listę od lewej */
-    list-style-position: outside; /* kropka zostaje “na zewnątrz” */
+    padding: 0 25px 25px 25px;
+    list-style-position: outside;
+    display: grid;
+    gap: 10px;
+    color: var(--muted);
 }
 
 .faq-list li {
