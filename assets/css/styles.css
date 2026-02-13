@@ -1189,6 +1189,12 @@ a:hover {
     color: var(--muted);
 }
 
+@media (max-width: 600px) {
+    .faq__aInner {
+        padding: 20px 30px;
+    }
+}
+
 .faq__aInner p {
     margin: 0;
 }
