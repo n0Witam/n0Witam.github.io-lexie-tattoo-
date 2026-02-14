@@ -1154,7 +1154,7 @@ a:hover {
     gap: 12px;
     padding: 14px 16px;
     border: 0;
-    background: var(--bg)
+    background: var(--bg);
     color: var(--text);
     font: inherit;
     font-weight: 650;
