@@ -988,6 +988,10 @@ a:hover {
     display: block;
 }
 
+#contact {
+    scroll-margin-top: 72px;
+}
+
 /* Mobile: standardowo układ jeden pod drugim */
 @media (max-width: 900px) {
     .split--contact {
@@ -1006,6 +1010,10 @@ a:hover {
         max-height: 40vh;
         width: auto;
         object-fit: contain; /* albo cover, jeśli wolisz przycięcie */
+    }
+
+    #contact {
+        scroll-margin-top: 64px;
     }
 }
 
