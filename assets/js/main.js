@@ -1,49 +1,3 @@
-function withTimeout(promise, ms = 1800) {
-  return Promise.race([
-    promise,
-    new Promise((resolve) => setTimeout(resolve, ms)),
-  ]);
-}
-
-function waitForImagesIn(container, limit = 6) {
-  if (!container) return Promise.resolve();
-
-  const imgs = Array.from(container.querySelectorAll("img")).slice(0, limit);
-  const pending = imgs
-    .filter((img) => !img.complete)
-    .map(
-      (img) =>
-        new Promise((resolve) => {
-          img.addEventListener("load", resolve, { once: true });
-          img.addEventListener("error", resolve, { once: true });
-        }),
-    );
-
-  return Promise.allSettled(pending);
-}
-
-async function revealPageWhenReady() {
-  const html = document.documentElement;
-  html.classList.add("is-loading");
-
-  // czekaj max ~1.8s i niezależnie od wyniku pokaż stronę
-  try {
-    const tasks = [];
-
-    // fonty (jeśli przeglądarka wspiera)
-    if (document.fonts && document.fonts.ready)
-      tasks.push(document.fonts.ready);
-
-    // obrazki TYLKO z tego co istnieje na danej stronie
-    tasks.push(waitForImagesIn(document.querySelector("main")));
-
-    await withTimeout(Promise.allSettled(tasks), 1800);
-  } finally {
-    html.classList.remove("is-loading");
-    html.classList.add("is-ready");
-  }
-}
-
 import { fetchJSON, resolveUrl, qs, qsa } from "./util.js";
 
 const DATA_URL = "./data/portfolio.json";
@@ -929,10 +883,16 @@ function setYear() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  await revealPageWhenReady();
-
   await renderFeatured();
   qsa("[data-carousel]").forEach(setupCarousel);
   setupContactForm();
   setYear();
 });
+
+async function bootstrap() {
+  await document.fonts.ready;
+
+  document.documentElement.classList.add("is-ready");
+}
+
+bootstrap();
