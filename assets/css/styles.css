@@ -116,7 +116,7 @@ a:hover {
 
 /* mały „stagger” (opóźnienie) dla elementów w danej sekcji */
 .reveal[data-delay] {
-    transition-delay: var(--reveal-delay, 0ms);
+    transition-delay: var(--reveal-delay, 400ms);
 }
 
 /* preferencje dostępności */
