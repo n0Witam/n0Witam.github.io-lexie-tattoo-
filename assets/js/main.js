@@ -888,11 +888,3 @@ window.addEventListener("DOMContentLoaded", async () => {
   setupContactForm();
   setYear();
 });
-
-async function bootstrap() {
-  await document.fonts.ready;
-
-  document.documentElement.classList.add("is-ready");
-}
-
-bootstrap();
