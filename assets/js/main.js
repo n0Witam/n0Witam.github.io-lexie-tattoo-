@@ -894,35 +894,21 @@ function setupScrollReveal() {
   const els = Array.from(document.querySelectorAll(".reveal"));
   if (!els.length) return;
 
-  // ustaw „stagger” automatycznie dla dzieci w sekcji (opcjonalne)
-  // np. elementy .card w obrębie .reveal będą miały opóźnienia 0,80,160ms...
-  els.forEach((el) => {
-    const staggerChildren = el.querySelectorAll(
-      ":scope .card, :scope .tile, :scope .btn",
-    );
-    if (staggerChildren.length > 1) {
-      staggerChildren.forEach((child, i) => {
-        child.classList.add("reveal");
-        child.style.setProperty("--reveal-delay", `${i * 80}ms`);
-      });
-    }
-  });
-
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
-          io.unobserve(entry.target); // animuj tylko raz
+          io.unobserve(entry.target);
         }
       });
     },
     {
       root: null,
       threshold: 0.12,
-      rootMargin: "0px 0px -10% 0px", // start trochę wcześniej
+      rootMargin: "0px 0px -10% 0px",
     },
   );
 
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  els.forEach((el) => io.observe(el));
 }
