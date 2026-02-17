@@ -1,3 +1,12 @@
+html:not(.is-ready) body {
+    opacity: 0;
+}
+
+html.is-ready body {
+    opacity: 1;
+    transition: opacity 180ms ease;
+}
+
 /* ==========================================================
    Lexie Tattoo — minimal static starter (GitHub Pages friendly)
    ========================================================== */
