@@ -305,9 +305,9 @@ a:hover {
 .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 25px;
     align-items: center;
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .hero__side {
