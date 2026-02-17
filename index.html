@@ -496,28 +496,6 @@
             </div>
         </footer>
         <script src="./assets/js/main.js" type="module"></script>
-        <script>
-            async function bootstrap() {
-                function waitImage(url) {
-                    return new Promise((resolve, reject) => {
-                        const img = new Image();
-                        img.onload = () => resolve(url);
-                        img.onerror = reject;
-                        img.src = url;
-                    });
-                }
-
-                await Promise.all([
-                    waitImage("./assets/img/lexie_fg.png"),
-                    waitImage("./assets/img/map.png"),
-                ]);
-                await document.fonts.ready;
-
-                document.documentElement.classList.add("is-ready");
-            }
-
-            bootstrap();
-        </script>
         <script type="module">
             import * as UC from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@v1/web/file-uploader.min.js";
             UC.defineComponents(UC);
