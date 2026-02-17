@@ -888,24 +888,3 @@ window.addEventListener("DOMContentLoaded", async () => {
   setupContactForm();
   setYear();
 });
-
-async function bootstrap() {
-  function waitImage(url) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(url);
-      img.onerror = reject;
-      img.src = url;
-    });
-  }
-
-  await Promise.all([
-    waitImage("./assets/img/lexie_fg.png"),
-    waitImage("./assets/img/map.png"),
-  ]);
-  await document.fonts.ready;
-
-  document.documentElement.classList.add("is-ready");
-}
-
-bootstrap();
