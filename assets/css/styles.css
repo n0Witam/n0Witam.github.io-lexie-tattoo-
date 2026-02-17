@@ -12,7 +12,7 @@
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     --radius: 18px;
     --radius-sm: 12px;
-    --container: 1120px;
+    --container: 1250px;
     --gap: 18px;
     --gap-lg: 42px;
     --focus: 0 0 0 3px rgba(244, 244, 245, 0.25);
@@ -257,9 +257,9 @@ a:hover {
     text-align: center;
     font-family: "Chomsky", ui-serif, Georgia, serif;
     margin: 10px 0 0px;
-    font-size: clamp(7vh, 8.5vw, 10vh);
+    font-size: clamp(9.5vh, 12vw, 13vh);
     line-height: 1.05;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.05em;
     padding-bottom: 7vh;
 }
 
@@ -983,7 +983,7 @@ a:hover {
 
 /* Kontakt: grid ma się rozciągać na wysokość najwyższej kolumny */
 .split--contact {
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 1.3fr 0.7fr;
     align-items: stretch;
 }
 
