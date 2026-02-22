@@ -1188,20 +1188,15 @@ a:hover {
    ================================ */
 
 @media (min-width: 1024px) {
-    body.home {
+    html.home {
         scroll-snap-type: y mandatory;
-        overflow-y: auto;
+        /* żeby snap nie lądował pod sticky header */
+        scroll-padding-top: 72px;
     }
 
-    body.home main > section {
+    html.home main > section {
         scroll-snap-align: start;
         scroll-snap-stop: always;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-    }
-
-    body.home .hero {
         min-height: 100vh;
     }
 }
