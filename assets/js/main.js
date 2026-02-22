@@ -883,56 +883,56 @@ function setupTwinkles() {
   const isDesktop = window.matchMedia(
     "(hover: hover) and (pointer: fine)",
   ).matches;
+  if (!isDesktop) return; // premium: tylko desktop (opcjonalne, ale polecam)
+
+  const symbols = ["✧", "˚", "₊"];
   const rand = (min, max) => Math.random() * (max - min) + min;
 
-  // premium: lekka preferencja obrzeży (mniej “w twarz” na środku)
+  // premium: lekka preferencja obrzeży + góry (mniej “w twarz” na środku)
   const weightedPos = () => {
     const r = Math.random();
-    if (r < 0.35) return rand(2, 22);
-    if (r < 0.7) return rand(78, 98);
-    return rand(28, 72);
+    if (r < 0.35) return rand(2, 22); // lewa strefa
+    if (r < 0.7) return rand(78, 98); // prawa strefa
+    return rand(28, 72); // środek rzadziej
   };
 
   const spawn = () => {
     const el = document.createElement("span");
     el.className = "twinkles__star";
 
+    // premium: ✧ najczęściej, ˚ i ₊ rzadziej
     const p = Math.random();
     el.textContent = p < 0.68 ? "✧" : p < 0.86 ? "˚" : "₊";
 
     el.style.setProperty("--x", `${weightedPos()}vw`);
     el.style.setProperty("--y", `${rand(6, 92)}vh`);
 
-    // większe na desktop, trochę mniejsze na mobile
-    el.style.setProperty(
-      "--size",
-      `${isDesktop ? rand(18, 32) : rand(14, 26)}px`,
-    );
+    // premium: małe rozmiary
+    el.style.setProperty("--size", `${rand(18, 32)}px`);
 
+    // premium: dłużej + większy rozrzut delay
     el.style.setProperty("--dur", `${rand(3.8, 6.8)}s`);
     el.style.setProperty("--delay", `${rand(0, 1.2)}s`);
 
-    // subtelniej na mobile
-    el.style.setProperty(
-      "--op",
-      `${isDesktop ? rand(0.08, 0.18) : rand(0.06, 0.14)}`,
-    );
+    // premium: niska opacity
+    el.style.setProperty("--op", `${rand(0.08, 0.18)}`);
 
     layer.appendChild(el);
+
+    // sprzątanie po animacji (max dur + delay + zapas)
     window.setTimeout(() => el.remove(), 9000);
   };
 
-  const initialCount = isDesktop ? 12 : 7;
-  const intervalMin = isDesktop ? 380 : 650;
-  const intervalMax = isDesktop ? 820 : 1200;
-  const doubleChance = isDesktop ? 0.45 : 0.2;
-
-  for (let i = 0; i < initialCount; i++) spawn();
+  // premium: mało na start, potem spokojny “oddech”
+  for (let i = 0; i < 12; i++) spawn();
 
   const loop = () => {
+    // 1–2 naraz czasem, ale rzadko
     spawn();
-    if (Math.random() < doubleChance) spawn();
-    window.setTimeout(loop, rand(intervalMin, intervalMax));
+    if (Math.random() < 0.45) spawn();
+
+    // premium: wolno i nieregularnie
+    window.setTimeout(loop, rand(380, 820));
   };
 
   loop();
