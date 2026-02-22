@@ -924,15 +924,15 @@ function setupTwinkles() {
   };
 
   // premium: mało na start, potem spokojny “oddech”
-  for (let i = 0; i < 6; i++) spawn();
+  for (let i = 0; i < 12; i++) spawn();
 
   const loop = () => {
     // 1–2 naraz czasem, ale rzadko
     spawn();
-    if (Math.random() < 0.18) spawn();
+    if (Math.random() < 0.45) spawn();
 
     // premium: wolno i nieregularnie
-    window.setTimeout(loop, rand(750, 1400));
+    window.setTimeout(loop, rand(380, 820));
   };
 
   loop();
