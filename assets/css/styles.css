@@ -319,6 +319,18 @@ a:hover {
     padding-top: 25px;
 }
 
+.hero::after {
+    content: "";
+    position: absolute;
+    right: -200px;
+    bottom: -150px;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.04;
+}
+
 @media (max-width: 600px) {
     .hero__actions {
         gap: 1.25vw;
