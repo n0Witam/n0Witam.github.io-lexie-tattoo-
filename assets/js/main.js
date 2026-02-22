@@ -873,6 +873,25 @@ function closeFreePatternModal() {
   }, 320);
 }
 
+function preventWidows(root = document) {
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false,
+  );
+
+  const regex = /(\s)([aiouwzAIUOWZ])\s/g;
+
+  let node;
+  while ((node = walker.nextNode())) {
+    node.nodeValue = node.nodeValue.replace(regex, "$1$2\u00A0");
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  preventWidows();
+});
 /* ============================================================
    Misc
    ============================================================ */
