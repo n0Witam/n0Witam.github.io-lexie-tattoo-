@@ -1179,22 +1179,17 @@ a:hover {
     }
 }
 
-/* ================================
-   Desktop full-page snap scroll
-   ================================ */
+/* ======== snap scroll ======== */
 
-@media (min-width: 1024px) {
-    html.home {
-        scroll-snap-type: y mandatory;
-        /* żeby snap nie lądował pod sticky header */
-        scroll-padding-top: 72px;
-    }
+html.home {
+    scroll-snap-type: y mandatory;
+    /* żeby snap nie lądował pod sticky header */
+    scroll-padding-top: 72px;
+}
 
-    html.home main > section {
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-        min-height: 100vh;
-    }
+html.home main > section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 /* ====== FAQ (accordion) ====== */
