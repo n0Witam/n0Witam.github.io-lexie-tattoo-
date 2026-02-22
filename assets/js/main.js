@@ -923,16 +923,21 @@ function setupTwinkles() {
     window.setTimeout(() => el.remove(), 9000);
   };
 
-  // premium: mało na start, potem spokojny “oddech”
-  for (let i = 0; i < 12; i++) spawn();
+  const isDesktop = window.matchMedia(
+    "(hover: hover) and (pointer: fine)",
+  ).matches;
+
+  const initialCount = isDesktop ? 12 : 7;
+  const intervalMin = isDesktop ? 380 : 650;
+  const intervalMax = isDesktop ? 820 : 1200;
+  const doubleChance = isDesktop ? 0.45 : 0.2;
+
+  for (let i = 0; i < initialCount; i++) spawn();
 
   const loop = () => {
-    // 1–2 naraz czasem, ale rzadko
     spawn();
-    if (Math.random() < 0.45) spawn();
-
-    // premium: wolno i nieregularnie
-    window.setTimeout(loop, rand(380, 820));
+    if (Math.random() < doubleChance) spawn();
+    window.setTimeout(loop, rand(intervalMin, intervalMax));
   };
 
   loop();
