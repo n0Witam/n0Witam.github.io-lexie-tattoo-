@@ -289,7 +289,8 @@ a:hover {
     font-size: clamp(9.5vh, 12vw, 13vh);
     line-height: 1.05;
     letter-spacing: -0.05em;
-    padding-bottom: 7vh;
+    padding-top: 5vh;
+    padding-bottom: 2vh;
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
