@@ -67,69 +67,10 @@ body {
     position: relative;
 }
 
-/* =========================
-   Twinkling symbols background
-   ========================= */
-
-.twinkles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0; /* tło */
-}
-
-/* upewnij się, że treść jest nad gwiazdkami */
-body > header,
-body > main,
-body > footer {
-    position: relative;
-    z-index: 1;
-}
-
-.twinkles__star {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    font-family:
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        Segoe UI,
-        Roboto,
-        Arial;
-    font-size: var(--size);
-    line-height: 1;
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(0.98);
-    will-change: opacity, transform;
-
-    /* premium: minimalny, miękki glow */
-    text-shadow: 0 0 8px color-mix(in srgb, var(--text) 14%, transparent);
-
-    animation: twinkle var(--dur) ease-in-out var(--delay) 1 both;
-}
-
-@keyframes twinkle {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 2px, 0) scale(0.98);
-    }
-    40% {
-        opacity: var(--op);
-        transform: translate3d(0, 0px, 0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate3d(0, -2px, 0) scale(1.02);
-    }
-}
-
-/* dostępność */
-@media (prefers-reduced-motion: reduce) {
-    .twinkles {
-        display: none;
-    }
+body:not(.no-justify) p,
+body:not(.no-justify) li {
+    text-align: justify;
+    hyphens: auto;
 }
 
 img {
@@ -1206,6 +1147,12 @@ uc-copyright * {
 
     backdrop-filter: blur(5px);
     background: color-mix(in srgb, var(--bg) 50%, transparent);
+}
+
+.mapOverlay p,
+.mapOverlay li {
+    text-align: left;
+    hyphens: none;
 }
 
 @media (max-width: 600px) {
