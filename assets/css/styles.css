@@ -128,12 +128,6 @@ a:hover {
     }
 }
 
-/* WORKS: nie ukrywaj niczego przez reveal */
-#works .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-}
 /* ====== Header / Nav ====== */
 
 .site-header {

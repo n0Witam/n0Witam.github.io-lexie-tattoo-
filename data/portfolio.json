@@ -5,12 +5,12 @@
   "groups": [
     {
       "id": "wolne-wzory",
-      "name": "Wolne wzory ✧˚₊",
+      "name": "Wolne wzory",
       "items": ["p06", "p08", "faun"]
     },
     {
       "id": "g_mldoad9l_77yf3y",
-      "name": "Wykonane prace ✧˚₊",
+      "name": "Wykonane prace",
       "items": ["p01", "p02", "p03", "p05", "p07"]
     }
   ],
