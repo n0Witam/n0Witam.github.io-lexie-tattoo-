@@ -373,7 +373,7 @@ a:hover {
 /* ====== Sections ====== */
 
 .section {
-    padding: 10vh 0;
+    padding: 5vh 0;
     border-top: 1px solid var(--border);
 }
 
@@ -897,10 +897,11 @@ a:hover {
     margin-top: 15px;
 }
 
-uc-file-uploader-minimal {
-    uc-copyright {
-        display: none;
-    }
+uc-copyright,
+uc-copyright * {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    user-select: none !important;
 }
 
 @media (prefers-color-scheme: light) {
