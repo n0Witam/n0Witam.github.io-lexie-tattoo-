@@ -1033,7 +1033,7 @@ uc-copyright * {
 
 /* Kontakt: grid ma się rozciągać na wysokość najwyższej kolumny */
 .split--contact {
-    grid-template-columns: 1.3fr 0.7fr;
+    grid-template-columns: 1fr 0.7fr;
     align-items: stretch;
 }
 
