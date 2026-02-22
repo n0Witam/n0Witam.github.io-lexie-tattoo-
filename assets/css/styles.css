@@ -73,6 +73,13 @@ body:not(.no-justify) li {
     text-wrap: pretty;
 }
 
+@media (max-width: 600px) {
+    p,
+    li {
+        text-align: left;
+    }
+}
+
 img {
     max-width: 100%;
     display: block;
