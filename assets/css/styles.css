@@ -273,15 +273,6 @@ a:hover {
     }
 }
 
-.hero__kicker {
-    color: var(--muted);
-    font-size: 14px;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    text-align: center;
-    padding-top: 2vh;
-}
-
 .hero__title {
     text-align: center;
     font-family: "Chomsky", ui-serif, Georgia, serif;
@@ -290,11 +281,19 @@ a:hover {
     line-height: 1.05;
     letter-spacing: -0.05em;
     padding-top: 5vh;
-    padding-bottom: 2vh;
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+}
+
+.hero__kicker {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2vh;
 }
 
 .hero__about {
