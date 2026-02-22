@@ -161,7 +161,8 @@ async function renderPortfolio() {
 
       const title = document.createElement("h2");
       title.className = "portfolio-group__title";
-      title.textContent = group.name || " ✧˚₊";
+      const SUFFIX = " ✧˚₊";
+      title.textContent = (group.name || "") + SUFFIX;
 
       const grid = document.createElement("div");
       grid.className = "grid";
