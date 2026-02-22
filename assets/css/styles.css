@@ -110,7 +110,6 @@ a:hover {
 /* ===== Scroll reveal ===== */
 .reveal {
     opacity: 0;
-    transform: translateY(14px);
     transition:
         opacity 1.5s cubic-bezier(0.2, 0.9, 0.2, 1),
         transform 1.5s cubic-bezier(0.2, 0.9, 0.2, 1);
@@ -119,7 +118,6 @@ a:hover {
 
 .reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
 }
 
 /* mały „stagger” (opóźnienie) dla elementów w danej sekcji */
@@ -1060,10 +1058,27 @@ uc-copyright * {
 
 /* Prawa kolumna: obraz przyklejony do dołu */
 .contact__imageWrap {
+    position: relative;
+    isolation: isolate;
     display: flex;
     align-items: flex-end; /* przykleja do dołu */
     height: 100%; /* ważne */
     width: 100%;
+}
+.contact__imageWrap::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+    background: radial-gradient(
+        circle at 55% 40%,
+        color-mix(in srgb, var(--accent) 22%, transparent) 0%,
+        color-mix(in srgb, var(--accent) 10%, transparent) 35%,
+        transparent 70%
+    );
+    filter: blur(26px);
+    opacity: 0.9;
+    pointer-events: none;
 }
 
 .contact__image {
@@ -1072,6 +1087,9 @@ uc-copyright * {
     object-fit: contain;
     object-position: bottom;
     display: block;
+
+    position: relative;
+    z-index: 1;
 }
 
 /* Mobile: standardowo układ jeden pod drugim */
@@ -1114,7 +1132,6 @@ uc-copyright * {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 14px;
     align-items: center;
     text-align: center;
 }
@@ -1149,14 +1166,6 @@ uc-copyright * {
     aspect-ratio: 1 / 1; /* lub np. 4/3 */
     object-fit: cover;
     display: block;
-
-    transform: scale(1);
-    transition: transform 3.5s cubic-bezier(0.2, 0.9, 0.2, 1);
-    will-change: transform;
-}
-
-.reveal.is-visible .card--map img {
-    transform: scale(1.1);
 }
 
 .mapLink {
