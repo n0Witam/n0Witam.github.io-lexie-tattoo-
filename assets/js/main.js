@@ -888,10 +888,6 @@ function preventWidows(root = document) {
     node.nodeValue = node.nodeValue.replace(regex, "$1$2\u00A0");
   }
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-  preventWidows();
-});
 /* ============================================================
    Misc
    ============================================================ */
@@ -907,6 +903,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   setupContactForm();
   setupScrollReveal();
   setYear();
+  preventWidows();
 });
 
 function setupScrollReveal() {
