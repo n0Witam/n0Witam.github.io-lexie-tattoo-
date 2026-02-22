@@ -1119,8 +1119,8 @@ uc-copyright * {
         color-mix(in srgb, var(--accent) 10%, transparent) 35%,
         transparent 70%
     );
-    filter: blur(48px);
-    opacity: 0.9;
+    filter: blur(65px);
+    opacity: 1;
     pointer-events: none;
     z-index: 0;
 }
