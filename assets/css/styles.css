@@ -1220,17 +1220,31 @@ uc-copyright * {
     }
 }
 
-/* ======== snap scroll ======== */
+/* ======== snap scroll (DESKTOP ONLY) ======== */
 
+/* domyślnie: bez snapa (mobile/tablet) */
 html.home {
-    scroll-snap-type: y proximity;
-    /* żeby snap nie lądował pod sticky header */
-    scroll-padding-top: 72px;
+    scroll-snap-type: none;
+    scroll-padding-top: 0;
 }
 
 html.home main > section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+}
+
+/* tylko desktop + mysz/trackpad */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+    html.home {
+        scroll-snap-type: y proximity;
+        scroll-padding-top: 72px; /* sticky header */
+    }
+
+    html.home main > section {
+        scroll-snap-align: start;
+        /* scroll-snap-stop na Y potrafi pogarszać UX — lepiej normal */
+        scroll-snap-stop: normal;
+    }
 }
 
 @media (max-width: 600px) {
