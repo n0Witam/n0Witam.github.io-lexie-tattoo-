@@ -462,13 +462,14 @@ a:hover {
 
 .ig-profile__link {
     display: inline-block;
-    width: 150px;
-    height: 150px;
+    width: 175px;
+    height: 175px;
     padding: 5px;
     border-radius: 50%;
     background: linear-gradient(to right, red, orange, purple);
     transform: rotate(-45deg);
     box-shadow: var(--shadow);
+    margin-bottom: 20px;
 }
 
 .ig-profile__link img {
@@ -1119,8 +1120,9 @@ uc-copyright * {
 }
 
 .ig-card .btn {
-    width: 80%;
+    width: 75%;
     justify-content: center;
+    margin-top: 14px;
 }
 
 /* ====== Map ====== */
