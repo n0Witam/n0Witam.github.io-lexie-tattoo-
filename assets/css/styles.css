@@ -66,18 +66,11 @@ body {
     letter-spacing: 0.2px;
     position: relative;
 }
-
-body:not(.no-justify) p,
-body:not(.no-justify) li {
-    text-align: justify;
-    text-wrap: pretty;
-}
-
-@media (max-width: 600px) {
-    p,
-    li {
-        text-align: left;
-        text-wrap: stable;
+@media (min-width: 600px) {
+    body:not(.no-justify) p,
+    body:not(.no-justify) li {
+        text-align: justify;
+        text-wrap: pretty;
     }
 }
 
