@@ -288,7 +288,7 @@ a:hover {
     font-size: clamp(9.5vh, 12vw, 13vh);
     line-height: 1.05;
     letter-spacing: -0.131em;
-    padding-top: 5vh;
+    padding-top: 6vh;
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
@@ -337,7 +337,7 @@ a:hover {
     letter-spacing: 0.8px;
     text-transform: uppercase;
     text-align: center;
-    padding-top: 1.5vh;
+    padding-top: 1vh;
     padding-bottom: 7vh;
 }
 
