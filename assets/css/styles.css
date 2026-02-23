@@ -287,7 +287,7 @@ a:hover {
     margin: 10px 0 0px;
     font-size: clamp(9.5vh, 12vw, 13vh);
     line-height: 1.05;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.131em;
     padding-top: 5vh;
     -webkit-user-drag: none;
     user-select: none;
@@ -301,25 +301,30 @@ a:hover {
 
 /* ---- Korekty par ---- */
 
+/* Le – za daleko → przybliż i do x */
+.k-e {
+    margin-left: -0.02em;
+}
+
 /* xi – za daleko → przybliż i do x */
 .k-i {
-    margin-left: -0.035em; /* reguluj w zakresie -0.02 do -0.06 */
+    margin-left: -0.05em;
 }
 
 /* Sa – za blisko → oddal a od S */
 .k-a {
-    margin-left: 0.03em; /* reguluj 0.02 – 0.06 */
+    margin-left: 0.025em;
 }
 
 /* lo – za daleko → przybliż o do l */
 .k-o {
-    margin-left: -0.03em; /* reguluj -0.02 – -0.05 */
+    margin-left: -0.009em;
 }
 
 /* kontrola odstępu między słowami */
 .logo-kern .space {
     display: inline-block;
-    width: 0.25em; /* dopasuj */
+    width: 0.05em;
 }
 
 .hero__kicker {
