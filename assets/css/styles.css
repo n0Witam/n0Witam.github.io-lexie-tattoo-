@@ -1113,6 +1113,9 @@ uc-copyright * {
     content: "";
     position: absolute;
 
+    animation: glowFloat 6.5s ease-in-out infinite;
+    will-change: transform, opacity;
+
     width: 115%;
     height: 105%;
     left: 50%;
@@ -1132,6 +1135,26 @@ uc-copyright * {
     opacity: 0.85;
     pointer-events: none;
     z-index: 0;
+}
+
+/* Uwaga: w keyframes MUSIMY powtórzyć translateX(-50%), bo transform jest animowany */
+@keyframes glowFloat {
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: 0.78;
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px) scale(1.06);
+        opacity: 0.92;
+    }
+}
+
+/* dostępność */
+@media (prefers-reduced-motion: reduce) {
+    .contact__imageWrap::before {
+        animation: none !important;
+    }
 }
 
 /* zdjęcie nad glow */
