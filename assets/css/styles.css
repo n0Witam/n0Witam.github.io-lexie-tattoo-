@@ -314,7 +314,7 @@ a:hover {
 }
 
 .k-a {
-    margin-left: 0.025em;
+    margin-left: 0.02em;
 }
 
 .k-o {
@@ -328,7 +328,7 @@ a:hover {
 /* kontrola odstępu między słowami */
 .logo-kern .space {
     display: inline-block;
-    width: 0.05em;
+    width: 0.075em;
 }
 
 .hero__kicker {
