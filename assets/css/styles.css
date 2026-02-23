@@ -1125,11 +1125,11 @@ uc-copyright * {
     );
 
     filter: blur(28px);
-    opacity: 0.85;
+    opacity: 0.9;
     pointer-events: none;
     z-index: 0;
 
-    animation: glowFloat 6.5s ease-in-out infinite;
+    animation: glowFloat 4.5s ease-in-out infinite;
     will-change: transform, opacity;
 }
 
@@ -1140,7 +1140,7 @@ uc-copyright * {
         opacity: 0.78;
     }
     50% {
-        transform: translateX(-50%) translateY(-10px) scale(1.06);
+        transform: translateX(-50%) translateY(-16px) scale(1.06);
         opacity: 0.92;
     }
 }
