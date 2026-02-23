@@ -295,6 +295,33 @@ a:hover {
     -webkit-touch-callout: none;
 }
 
+.logo-kern span {
+    display: inline-block;
+}
+
+/* ---- Korekty par ---- */
+
+/* xi – za daleko → przybliż i do x */
+.k-i {
+    margin-left: -0.035em; /* reguluj w zakresie -0.02 do -0.06 */
+}
+
+/* Sa – za blisko → oddal a od S */
+.k-a {
+    margin-left: 0.03em; /* reguluj 0.02 – 0.06 */
+}
+
+/* lo – za daleko → przybliż o do l */
+.k-o {
+    margin-left: -0.03em; /* reguluj -0.02 – -0.05 */
+}
+
+/* kontrola odstępu między słowami */
+.logo-kern .space {
+    display: inline-block;
+    width: 0.25em; /* dopasuj */
+}
+
 .hero__kicker {
     color: var(--muted);
     font-size: 14px;
