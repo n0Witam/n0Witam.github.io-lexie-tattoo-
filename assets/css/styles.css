@@ -1142,8 +1142,7 @@ uc-copyright * {
 .contact__imageWrap::before {
     content: "";
     position: absolute;
-
-    width: 25vw;
+    width: 40vw;
     height: 105%;
     left: 50%;
     bottom: 0;
@@ -1161,7 +1160,6 @@ uc-copyright * {
     );
 
     filter: blur(28px);
-    opacity: 0.9;
     pointer-events: none;
     z-index: 0;
 
