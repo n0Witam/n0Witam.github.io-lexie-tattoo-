@@ -279,7 +279,7 @@ a:hover {
     pointer-events: none;
 
     /* Background image under the mask */
-    background: url("./prism_bg.jpeg") center right / cover no-repeat;
+    background: url("./img/prism_bg.jpeg") center right / cover no-repeat;
     opacity: 0.95;
 
     /* Mask = animated “glow window” (fully hides image outside the mask) */
@@ -305,7 +305,9 @@ a:hover {
     mask-position: 62% 55%;
 
     animation: heroMaskDrift 11s ease-in-out infinite;
-    will-change: mask-position, -webkit-mask-position;
+    will-change:
+        mask-position,
+        -webkit-mask-position;
 }
 
 /* Ensure hero content stays above the masked background */
@@ -338,9 +340,6 @@ a:hover {
         animation: none !important;
     }
 }
-
-
-
 
 /* Disable previous glow layer behind the portrait (mask-based background is used instead) */
 .contact__imageWrap::before {
