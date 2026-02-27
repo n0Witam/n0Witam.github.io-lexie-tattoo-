@@ -267,9 +267,9 @@ a:hover {
     padding: 10px 0 36px;
     padding-bottom: 0;
     overflow: hidden;
-    --mask-x: 62%;
-    --mask-y: 55%;
-    --mask-r: clamp(220px, 22vw, 340px);
+    --mask-x: 74%;
+    --mask-y: 64%;
+    --mask-r: clamp(260px, 20vw, 420px);
 }
 
 /* ===== HERO: full-screen background revealed by an animated mask =====
@@ -380,12 +380,10 @@ a:hover {
 
 @media (max-width: 900px) {
     .hero {
-        --mask-x: 56%;
-        --mask-y: 62%;
-        --mask-r: clamp(180px, 55vw, 320px);
+        --mask-x: 50%;
+        --mask-y: 78%;
+        --mask-r: clamp(200px, 78vw, 360px);
     }
-}
-@media (max-width: 900px) {
     .hero__grid {
         grid-template-columns: 1fr;
         gap: 0px;
