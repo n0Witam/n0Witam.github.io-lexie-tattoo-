@@ -277,7 +277,15 @@ a:hover {
 .hero::before {
     content: "";
     position: absolute;
-    inset: 0;
+    left: 50%;
+    bottom: 0;
+
+    transform: translateX(-50%);
+    width: min(900px, 65vw);
+
+    height: 130%; /* ⬅️ kluczowe */
+    max-height: 900px; /* zabezpieczenie */
+
     z-index: 0;
     pointer-events: none;
 
@@ -311,21 +319,21 @@ a:hover {
     /* standard (Firefox) – zwykle zadziała “wystarczająco” */
     mask-image:
         radial-gradient(
-            circle calc(var(--mask-r) * 0.95) at calc(var(--mask-x) - 3%)
-                calc(var(--mask-y) + 1%),
-            #000 0 60%,
+            circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
+                calc(var(--mask-y) + 12%),
+            #000 0 15%,
             transparent 72%
         ),
         radial-gradient(
-            circle calc(var(--mask-r) * 0.75) at calc(var(--mask-x) + 6%)
+            circle calc(var(--mask-r) * 1.5) at calc(var(--mask-x) + 6%)
                 calc(var(--mask-y) - 6%),
-            #000 0 60%,
+            #000 0 10%,
             transparent 72%
         ),
         radial-gradient(
-            circle calc(var(--mask-r) * 0.65) at calc(var(--mask-x) + 2%)
+            circle calc(var(--mask-r) * 1.25) at calc(var(--mask-x) + 2%)
                 calc(var(--mask-y) + 8%),
-            #000 0 60%,
+            #000 0 10%,
             transparent 72%
         );
     mask-repeat: no-repeat;
@@ -338,6 +346,13 @@ a:hover {
     -webkit-mask-position: 60% 57%;
     mask-position: 60% 57%;
     animation: heroMaskDrift 11s ease-in-out infinite;
+}
+
+@media (max-width: 900px) {
+    .hero::before {
+        width: 85vw;
+        height: 135%;
+    }
 }
 
 /* Ensure hero content stays above the masked background */
