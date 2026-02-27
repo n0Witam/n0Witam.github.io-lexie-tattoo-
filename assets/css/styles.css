@@ -392,7 +392,7 @@ a:hover {
         gap: 0px;
     }
     .hero::before {
-        height: 38%;
+        height: 125vw;
         bottom: -1.75%;
         left: -50%;
     }
