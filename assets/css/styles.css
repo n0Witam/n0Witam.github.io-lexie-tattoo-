@@ -288,21 +288,21 @@ a:hover {
     /* Mask = animated “glow window” (fully hides image outside the mask) */
     -webkit-mask-image:
         radial-gradient(
-            circle calc(var(--mask-r) * 0.95) at calc(var(--mask-x) - 3%)
-                calc(var(--mask-y) + 1%),
-            #000 0 60%,
+            circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
+                calc(var(--mask-y) + 12%),
+            #000 0 15%,
             transparent 72%
         ),
         radial-gradient(
-            circle calc(var(--mask-r) * 0.75) at calc(var(--mask-x) + 6%)
+            circle calc(var(--mask-r) * 1.5) at calc(var(--mask-x) + 6%)
                 calc(var(--mask-y) - 6%),
-            #000 0 60%,
+            #000 0 10%,
             transparent 72%
         ),
         radial-gradient(
-            circle calc(var(--mask-r) * 0.65) at calc(var(--mask-x) + 2%)
+            circle calc(var(--mask-r) * 1.25) at calc(var(--mask-x) + 2%)
                 calc(var(--mask-y) + 8%),
-            #000 0 60%,
+            #000 0 10%,
             transparent 72%
         );
     -webkit-mask-repeat: no-repeat;
