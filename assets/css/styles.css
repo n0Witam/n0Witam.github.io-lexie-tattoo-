@@ -279,7 +279,7 @@ a:hover {
     pointer-events: none;
 
     /* Background image under the mask */
-    background: url("./img/prism_bg.jpeg") center right / cover no-repeat;
+    background: url("./assets/img/prism_bg.jpeg") center right / cover no-repeat;
     opacity: 0.95;
 
     /* Mask = animated “glow window” (fully hides image outside the mask) */
