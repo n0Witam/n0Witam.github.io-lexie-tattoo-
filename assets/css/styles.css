@@ -289,48 +289,22 @@ a:hover {
     opacity: 0.95;
 
     /* Mask = animated “glow window” (fully hides image outside the mask) */
-    -webkit-mask-image:
-        radial-gradient(
-            circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
-                calc(var(--mask-y) + 12%),
-            #000 0 35%,
-            transparent 72%
-        ),
-        radial-gradient(
-            circle calc(var(--mask-r) * 1.5) at calc(var(--mask-x) + 6%)
-                calc(var(--mask-y) - 6%),
-            #000 0 30%,
-            transparent 72%
-        ),
-        radial-gradient(
-            circle calc(var(--mask-r) * 1.25) at calc(var(--mask-x) + 2%)
-                calc(var(--mask-y) + 8%),
-            #000 0 30%,
-            transparent 72%
-        );
+    -webkit-mask-image: radial-gradient(
+        circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
+            calc(var(--mask-y) + 12%),
+        #000 0 35%,
+        transparent 72%
+    );
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-composite: source-over, source-over; /* “doklej” warstwy */
 
     /* standard (Firefox) – zwykle zadziała “wystarczająco” */
-    mask-image:
-        radial-gradient(
-            circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
-                calc(var(--mask-y) + 12%),
-            #000 0 35%,
-            transparent 72%
-        ),
-        radial-gradient(
-            circle calc(var(--mask-r) * 1.5) at calc(var(--mask-x) + 6%)
-                calc(var(--mask-y) - 6%),
-            #000 0 30%,
-            transparent 72%
-        ),
-        radial-gradient(
-            circle calc(var(--mask-r) * 1.25) at calc(var(--mask-x) + 2%)
-                calc(var(--mask-y) + 8%),
-            #000 0 30%,
-            transparent 72%
-        );
+    mask-image: radial-gradient(
+        circle calc(var(--mask-r) * 1) at calc(var(--mask-x) + 6%)
+            calc(var(--mask-y) + 12%),
+        #000 0 35%,
+        transparent 72%
+    );
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
@@ -340,38 +314,12 @@ a:hover {
 
     -webkit-mask-position: 60% 57%;
     mask-position: 60% 57%;
-    animation: heroMaskDrift 11s ease-in-out infinite;
 }
 
 /* Ensure hero content stays above the masked background */
 .hero .container {
     position: relative;
     z-index: 1;
-}
-
-@keyframes heroMaskDrift {
-    0% {
-        -webkit-mask-position: 60% 57%;
-        mask-position: 60% 57%;
-    }
-    30% {
-        -webkit-mask-position: 65% 50%;
-        mask-position: 65% 50%;
-    }
-    60% {
-        -webkit-mask-position: 58% 53%;
-        mask-position: 58% 53%;
-    }
-    100% {
-        -webkit-mask-position: 60% 57%;
-        mask-position: 60% 57%;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .hero::before {
-        animation: none !important;
-    }
 }
 
 .hero__grid {
@@ -1248,12 +1196,6 @@ uc-copyright * {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .contact__imageWrap::before {
-        animation: none !important;
-    }
-}
-
 /* zdjęcie nad glow */
 .contact__image {
     position: relative;
@@ -1265,13 +1207,6 @@ uc-copyright * {
     mask-image:
         radial-gradient(circle at 55% 38%, #000 62%, transparent 82%),
         linear-gradient(#000 78%, transparent 100%);
-}
-
-@media (max-width: 900px) {
-    .contact__imageWrap::before {
-        opacity: 0.7;
-        width: 75vw;
-    }
 }
 
 .btn--ig {
