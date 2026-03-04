@@ -529,7 +529,7 @@ a:hover {
 }
 
 .hero__logo {
-    width: clamp(280px, 48vw, 760px);
+    width: clamp(520px, 48vw, 760px);
     aspect-ratio: 900 / 220;
     background-color: var(--text);
     display: block;
