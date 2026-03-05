@@ -609,10 +609,22 @@ a:hover {
         );
     }
 }
-
+@media (min-width: 1200px) {
+    .hero {
+        height: auto;
+    }
+}
 @media (max-width: 1200px) {
+    .hero {
+        height: 100vh;
+    }
     .hero__about {
         font-size: 14px;
+    }
+}
+@media (max-width: 900px) {
+    .hero {
+        height: auto;
     }
 }
 
